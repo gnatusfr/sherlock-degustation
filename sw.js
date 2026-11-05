@@ -1,4 +1,4 @@
-const CACHE_NAME = 'sherlock-v1.4.0';
+const CACHE_NAME = 'sherlock-v1.5.0';
 const ASSETS = [
   './',
   './index.html',
@@ -7,7 +7,7 @@ const ASSETS = [
   './icon-512.png'
 ];
 
-// Installation : mise en cache des fichiers
+// Installation
 self.addEventListener('install', event => {
   event.waitUntil(
     caches.open(CACHE_NAME).then(cache => cache.addAll(ASSETS))
@@ -15,7 +15,7 @@ self.addEventListener('install', event => {
   self.skipWaiting();
 });
 
-// Activation : nettoyage des anciens caches
+// Activation
 self.addEventListener('activate', event => {
   event.waitUntil(
     caches.keys().then(keys => Promise.all(
@@ -25,11 +25,19 @@ self.addEventListener('activate', event => {
   self.clients.claim();
 });
 
-// Interception des requêtes : sert le cache d'abord, puis le réseau
+// Interception réseau avec repli (Network First, puis Cache, puis index.html)
 self.addEventListener('fetch', event => {
   event.respondWith(
-    caches.match(event.request).then(response => {
-      return response || fetch(event.request);
-    }).catch(() => caches.match('./index.html'))
+    fetch(event.request)
+      .then(response => {
+        // Si le réseau répond, on met à jour le cache au passage
+        return response;
+      })
+      .catch(() => {
+        // Si le réseau échoue (mode PWA hors-ligne), on cherche dans le cache
+        return caches.match(event.request).then(cachedResponse => {
+          return cachedResponse || caches.match('./index.html');
+        });
+      })
   );
 });
