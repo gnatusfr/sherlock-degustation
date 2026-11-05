@@ -5,12 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <!-- Meta Theme Color : Clair par défaut, Sombre si détecté -->
     <meta name="theme-color" content="#fcfbf9" media="(prefers-color-scheme: light)">
     <meta name="theme-color" content="#121212" media="(prefers-color-scheme: dark)">
     <title>Sherlock - Dégustation Avancée</title>
     
     <style>
-        /* Variables CSS : Thème clair (Light) par défaut */
+        /* Thème clair par défaut (Option par défaut si non détecté) */
         :root {
             --bg-color: #fcfbf9;
             --text-color: #2c2c2c;
@@ -24,7 +25,7 @@
             --btn-text: #ffffff;
         }
 
-        /* Thème sombre (Dark) automatique */
+        /* Mode Sombre (Activité uniquement si détecté par le système du smartphone) */
         @media (prefers-color-scheme: dark) {
             :root {
                 --bg-color: #121212;
@@ -39,7 +40,7 @@
             }
         }
 
-        /* Reset & Base */
+        /* Reset & Layout de base */
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         
         body {
@@ -47,7 +48,7 @@
             background-color: var(--bg-color);
             color: var(--text-color);
             margin: 0;
-            padding: 20px 5vw 100px 5vw; /* Marges latérales fluides, place pour la barre du bas */
+            padding: 20px 4vw 100px 4vw;
             transition: background-color 0.3s, color 0.3s;
         }
 
@@ -57,145 +58,153 @@
             margin: 0 auto;
         }
 
-        h1 { text-align: center; color: var(--primary); font-size: clamp(1.4rem, 4vw, 2rem); margin-bottom: 2rem; }
-        h2 { font-size: clamp(1.2rem, 3vw, 1.5rem); color: var(--secondary); margin-bottom: 15px; border-bottom: 2px solid var(--primary-light); padding-bottom: 8px;}
-        h3 { font-size: 0.9rem; margin: 25px 0 10px 0; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
-        p { line-height: 1.5; }
+        h1 { text-align: center; color: var(--primary); font-size: clamp(1.4rem, 4vw, 2rem); margin-bottom: 1.5rem; }
+        h2 { font-size: clamp(1.2rem, 3vw, 1.4rem); color: var(--secondary); margin-bottom: 15px; border-bottom: 2px solid var(--primary-light); padding-bottom: 8px;}
+        h3 { font-size: 0.85rem; margin: 20px 0 10px 0; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
 
-        /* Animation des étapes */
-        .step { display: none; animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+        /* Step animations */
+        .step { display: none; animation: fadeIn 0.35s ease-out; }
         .step.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* Design Fluide des Grilles de boutons */
-        /* minmax(130px, 1fr) permet d'avoir 1, 2, 3 ou 4 colonnes selon la taille de l'écran, 100% fluide ! */
-        .grid-fluid { 
+        /* Grille à 2 choix */
+        .grid-2 { 
             display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); 
-            gap: 12px; 
+            grid-template-columns: 1fr 1fr; 
+            gap: 10px; 
             margin-bottom: 15px; 
         }
-        
+
+        /* Forçage strict des 3 choix sur UNE SEULE ligne */
+        .grid-3 { 
+            display: grid; 
+            grid-template-columns: repeat(3, 1fr) !important; 
+            gap: 6px; 
+            margin-bottom: 15px; 
+        }
+
+        /* Style des boutons radio */
         .btn-radio {
             background: var(--card-bg);
             border: 2px solid var(--border);
             color: var(--text-color);
-            padding: 15px 10px;
-            border-radius: 12px;
+            padding: 12px 4px;
+            border-radius: 10px;
             font-weight: 600;
             font-size: 0.95rem;
             text-align: center;
             cursor: pointer;
-            transition: all 0.25s ease;
+            transition: all 0.2s ease;
             display: flex;
             align-items: center;
             justify-content: center;
-            min-height: 60px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+            min-height: 54px;
+            line-height: 1.2;
         }
-        .btn-radio:hover { border-color: var(--secondary); transform: translateY(-2px); }
+
+        /* Adaptation spécifique pour les boutons forcés à 3 par ligne */
+        .grid-3 .btn-radio {
+            font-size: clamp(0.68rem, 2.4vw, 0.85rem);
+            padding: 10px 2px;
+            overflow-wrap: break-word;
+            word-break: normal;
+        }
+
+        .btn-radio:active { transform: scale(0.97); }
         .btn-radio.selected {
             border-color: var(--primary);
             background: var(--primary-light);
             color: var(--primary);
-            box-shadow: 0 4px 12px rgba(114, 47, 55, 0.1);
         }
 
-        /* Tags d'arômes (Sélection multiple) - Design flex fluide */
+        /* Tags d'arômes */
         .tags-container {
             display: flex;
             flex-wrap: wrap;
-            gap: 10px;
-            margin-bottom: 25px;
+            gap: 8px;
+            margin-bottom: 20px;
         }
         .tag {
             background: var(--tag-bg);
             border: 1px solid var(--border);
             color: var(--text-color);
-            padding: 10px 16px;
-            border-radius: 25px;
-            font-size: 0.95rem;
+            padding: 9px 14px;
+            border-radius: 20px;
+            font-size: 0.9rem;
             cursor: pointer;
             transition: all 0.2s ease;
             user-select: none;
         }
-        .tag:active { transform: scale(0.95); }
         .tag.active {
             background: var(--primary);
             color: var(--btn-text);
             border-color: var(--primary);
-            box-shadow: 0 4px 10px rgba(114, 47, 55, 0.3);
         }
 
-        /* Barre de navigation bas - Largeur totale (Edge-to-edge) */
+        /* Navigation bas */
         .nav-bar {
             position: fixed;
             bottom: 0; left: 0; right: 0;
             background: var(--card-bg);
-            padding: 15px 5vw;
-            box-shadow: 0 -5px 20px rgba(0,0,0,0.06);
+            padding: 12px 4vw;
+            box-shadow: 0 -4px 15px rgba(0,0,0,0.08);
             display: flex;
             justify-content: center;
             z-index: 1000;
+            border-top: 1px solid var(--border);
         }
         .nav-inner {
             width: 100%;
-            max-width: 800px; /* Aligné sur le container */
+            max-width: 800px;
             display: flex;
-            gap: 15px;
+            gap: 10px;
         }
         
         .btn-nav {
-            flex: 1; /* Prend tout l'espace disponible */
+            flex: 1;
             background: var(--primary);
             color: var(--btn-text);
             border: none;
-            padding: 16px 20px;
-            border-radius: 12px;
+            padding: 15px 15px;
+            border-radius: 10px;
             font-weight: 700;
-            font-size: 1rem;
+            font-size: 0.95rem;
             cursor: pointer;
-            transition: opacity 0.2s, transform 0.1s;
         }
-        .btn-nav:active { transform: scale(0.98); }
         .btn-nav:disabled { opacity: 0.4; cursor: not-allowed; }
         .btn-outline { background: transparent; border: 2px solid var(--text-muted); color: var(--text-muted); }
 
-        /* Carte Résultat */
+        /* Cartes de résultat */
         .match-card {
             background: var(--card-bg);
             border: 2px solid var(--border);
-            border-radius: 16px;
-            padding: 25px;
-            margin-bottom: 20px;
-            transition: transform 0.3s;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.04);
+            border-radius: 14px;
+            padding: 20px;
+            margin-bottom: 15px;
         }
         .match-card.winner {
             border-color: var(--secondary);
-            background: linear-gradient(145deg, var(--card-bg) 0%, rgba(212, 175, 55, 0.05) 100%);
+            background: linear-gradient(145deg, var(--card-bg) 0%, rgba(212, 175, 55, 0.08) 100%);
         }
         .match-title { 
-            font-size: clamp(1.2rem, 3vw, 1.5rem); 
+            font-size: clamp(1.1rem, 3vw, 1.4rem); 
             color: var(--secondary); 
             font-weight: 800; 
-            margin: 0 0 10px 0;
+            margin-bottom: 8px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            flex-wrap: wrap;
-            gap: 10px;
         }
         .match-score { 
             background: var(--secondary); 
             color: #000; 
-            padding: 4px 12px; 
-            border-radius: 20px; 
-            font-size: 0.85rem; 
+            padding: 3px 10px; 
+            border-radius: 12px; 
+            font-size: 0.8rem; 
             font-weight: bold; 
         }
-        .match-desc { font-size: 1rem; margin-bottom: 15px; line-height: 1.6; }
-        .match-markers { font-size: 0.85rem; color: var(--text-muted); font-style: italic; background: var(--tag-bg); padding: 10px; border-radius: 8px;}
+        .match-desc { font-size: 0.95rem; margin-bottom: 12px; line-height: 1.5; }
+        .match-markers { font-size: 0.85rem; color: var(--text-muted); font-style: italic; background: var(--tag-bg); padding: 8px 12px; border-radius: 6px; }
 
     </style>
 </head>
@@ -204,43 +213,43 @@
 <div class="container">
     <h1>🔍 Sherlock Œnologie</h1>
 
-    <!-- ETAPE 1 : COULEUR & VISUEL -->
+    <!-- ÉTAPE 1 : COULEUR & VISUEL -->
     <div id="step-1" class="step active">
         <h2>1. L'Œil</h2>
         
         <h3>Couleur dominante</h3>
-        <div class="grid-fluid" id="couleur-grid">
+        <div class="grid-2" id="couleur-grid">
             <div class="btn-radio" onclick="selectRadio('couleur', 'blanc')">Blanc</div>
             <div class="btn-radio" onclick="selectRadio('couleur', 'rouge')">Rouge</div>
         </div>
 
-        <h3>Intensité de la robe (Opacité)</h3>
-        <div class="grid-fluid" id="opacite-grid">
-            <div class="btn-radio" onclick="selectRadio('opacite', 'pale')">Pâle / Translucide</div>
+        <h3>Intensité de la robe</h3>
+        <div class="grid-3" id="opacite-grid">
+            <div class="btn-radio" onclick="selectRadio('opacite', 'pale')">Pâle / Claire</div>
             <div class="btn-radio" onclick="selectRadio('opacite', 'moyenne')">Moyenne</div>
-            <div class="btn-radio" onclick="selectRadio('opacite', 'profonde')">Opaque / Profonde</div>
+            <div class="btn-radio" onclick="selectRadio('opacite', 'profonde')">Opaque</div>
         </div>
         
-        <h3>Larmes (Alcool / Glycérol)</h3>
-        <div class="grid-fluid" id="larmes-grid">
+        <h3>Larmes (Alcool)</h3>
+        <div class="grid-2" id="larmes-grid">
             <div class="btn-radio" onclick="selectRadio('larmes', 'leger')">Fines (< 13°)</div>
             <div class="btn-radio" onclick="selectRadio('larmes', 'gras')">Épaisses (> 13.5°)</div>
         </div>
     </div>
 
-    <!-- ETAPE 2 : LE NEZ -->
+    <!-- ÉTAPE 2 : LE NEZ -->
     <div id="step-2" class="step">
         <h2>2. Le Nez (Arômes)</h2>
-        <p style="font-size: 0.95em; color: var(--text-muted);">Sélectionnez tous les marqueurs identifiés au 1er et 2ème nez.</p>
+        <p style="font-size: 0.9em; color: var(--text-muted);">Sélectionnez les marqueurs perçus au 1er et 2ème nez.</p>
         <div id="aromas-container"></div>
     </div>
 
-    <!-- ETAPE 3 : LA BOUCHE -->
+    <!-- ÉTAPE 3 : LA BOUCHE -->
     <div id="step-3" class="step">
         <h2>3. La Bouche</h2>
         
         <h3>Acidité (Salivation)</h3>
-        <div class="grid-fluid" id="acidite-grid">
+        <div class="grid-3" id="acidite-grid">
             <div class="btn-radio" onclick="selectRadio('acidite', 'basse')">Basse (Mou)</div>
             <div class="btn-radio" onclick="selectRadio('acidite', 'moyenne')">Équilibrée</div>
             <div class="btn-radio" onclick="selectRadio('acidite', 'haute')">Haute (Vif)</div>
@@ -248,8 +257,8 @@
 
         <div id="bouche-rouge-only" style="display:none;">
             <h3>Tannins (Astringence)</h3>
-            <div class="grid-fluid" id="tannins-grid">
-                <div class="btn-radio" onclick="selectRadio('tannins', 'faibles')">Fondus / Fins</div>
+            <div class="grid-3" id="tannins-grid">
+                <div class="btn-radio" onclick="selectRadio('tannins', 'faibles')">Fondus</div>
                 <div class="btn-radio" onclick="selectRadio('tannins', 'moyens')">Structurés</div>
                 <div class="btn-radio" onclick="selectRadio('tannins', 'forts')">Asséchants</div>
             </div>
@@ -257,22 +266,22 @@
 
         <div id="bouche-blanc-only" style="display:none;">
             <h3>Matière / Sucre</h3>
-            <div class="grid-fluid" id="sucre-grid">
+            <div class="grid-3" id="sucre-grid">
                 <div class="btn-radio" onclick="selectRadio('sucre', 'sec')">Sec & Droit</div>
-                <div class="btn-radio" onclick="selectRadio('sucre', 'gras')">Gras / Élevage</div>
-                <div class="btn-radio" onclick="selectRadio('sucre', 'doux')">Moelleux / Tendre</div>
+                <div class="btn-radio" onclick="selectRadio('sucre', 'gras')">Gras / Bois</div>
+                <div class="btn-radio" onclick="selectRadio('sucre', 'doux')">Moelleux</div>
             </div>
         </div>
     </div>
 
-    <!-- ETAPE 4 : VERDICT -->
+    <!-- ÉTAPE 4 : VERDICT -->
     <div id="step-4" class="step">
         <h2>Le Verdict</h2>
         <div id="results-container"></div>
     </div>
 </div>
 
-<!-- NAVIGATION FLUIDE -->
+<!-- NAVIGATION -->
 <div class="nav-bar" id="nav-bar">
     <div class="nav-inner">
         <button class="btn-nav btn-outline" id="btn-prev" onclick="changeStep(-1)" style="display: none;">Précédent</button>
@@ -281,7 +290,6 @@
 </div>
 
 <script>
-    // --- BASE DE DONNÉES EXPERTE ---
     const aromasLibrary = {
         blanc: [
             { cat: "Fruité", tags: ["Citron", "Pamplemousse", "Pomme verte", "Poire", "Coing", "Pêche", "Abricot", "Ananas", "Litchi"] },
@@ -299,27 +307,26 @@
 
     const database = [
         // BLANCS
-        { name: "Chenin Blanc (Évolué)", color: "blanc", acidity: "haute", body: "sec", markers: ["Coing", "Pomme verte", "Cire d'abeille", "Laine mouillée", "Miel", "Craie / Iode"], desc: "La cire d'abeille et la laine humide couplées à une acidité tranchante signent un grand Chenin de Loire (ex: Savennières, Vouvray)." },
-        { name: "Sémillon (Évolué)", color: "blanc", acidity: "basse", body: "gras", markers: ["Cire d'abeille", "Miel", "Abricot", "Noisette grillée", "Beurre / Brioche"], desc: "Une note de cire avec une acidité basse et du gras indique souvent un Sémillon (Bordeaux blanc ou Australie)." },
-        { name: "Riesling", color: "blanc", acidity: "haute", body: "sec", markers: ["Citron", "Pamplemousse", "Pétrole / Hydrocarbure", "Fleurs blanches", "Pierre à fusil"], desc: "Tension électrique, agrumes et cette note mythique de pétrole (TDN) qui vient avec les années (Alsace, Allemagne)." },
-        { name: "Sauvignon Blanc", color: "blanc", acidity: "haute", body: "sec", markers: ["Citron", "Pamplemousse", "Buis / Asperge", "Pierre à fusil", "Fougère"], desc: "Profil végétal. S'il y a de la pierre à fusil, c'est Sancerre/Pouilly-Fumé. Si c'est très exotique : Nouvelle-Zélande." },
-        { name: "Chardonnay (Boisé)", color: "blanc", acidity: "moyenne", body: "gras", markers: ["Pomme verte", "Beurre / Brioche", "Noisette grillée", "Vanille", "Fleurs blanches"], desc: "La fermentation malolactique et le fût apportent ce gras, le beurre et la noisette (Meursault, Pouilly-Fuissé)." },
-        { name: "Viognier", color: "blanc", acidity: "basse", body: "gras", markers: ["Abricot", "Pêche", "Violette (Condrieu)", "Miel", "Amande amère"], desc: "Très aromatique, explosif sur l'abricot et la violette, avec une bouche ample (Condrieu)." },
-        { name: "Gewurztraminer", color: "blanc", acidity: "basse", body: "doux", markers: ["Litchi", "Rose", "Clou de girofle"], desc: "Un profil exotique inimitable, très parfumé, avec souvent une touche de sucre résiduel." },
-        { name: "Vin Jaune / Oxydatif", color: "blanc", acidity: "haute", body: "sec", markers: ["Noix / Curry", "Pomme verte", "Amande amère"], desc: "Le Sotolon donne ces arômes intenses de noix et de curry. Signature du Savagnin du Jura sous voile." },
+        { name: "Chenin Blanc (Évolué)", color: "blanc", acidity: "haute", body: "sec", markers: ["Coing", "Pomme verte", "Cire d'abeille", "Laine mouillée", "Miel", "Craie / Iode"], desc: "Cire d'abeille et laine humide associées à une forte acidité signent un grand Chenin de Loire (Savennières, Vouvray)." },
+        { name: "Sémillon (Évolué)", color: "blanc", acidity: "basse", body: "gras", markers: ["Cire d'abeille", "Miel", "Abricot", "Noisette grillée", "Beurre / Brioche"], desc: "Note de cire avec acidité basse et matière grasse : typique du Sémillon évolué." },
+        { name: "Riesling", color: "blanc", acidity: "haute", body: "sec", markers: ["Citron", "Pamplemousse", "Pétrole / Hydrocarbure", "Fleurs blanches", "Pierre à fusil"], desc: "Tension vivace et note de pétrole (TDN) après quelques années de garde (Alsace, Allemagne)." },
+        { name: "Sauvignon Blanc", color: "blanc", acidity: "haute", body: "sec", markers: ["Citron", "Pamplemousse", "Buis / Asperge", "Pierre à fusil", "Fougère"], desc: "Profil végétal et agrumes. Pierre à fusil pour Sancerre/Pouilly-Fumé." },
+        { name: "Chardonnay (Boisé)", color: "blanc", acidity: "moyenne", body: "gras", markers: ["Pomme verte", "Beurre / Brioche", "Noisette grillée", "Vanille", "Fleurs blanches"], desc: "Fût et fermentation malolactique apportent beurre, brioche et gras (Meursault, Saint-Véran)." },
+        { name: "Viognier", color: "blanc", acidity: "basse", body: "gras", markers: ["Abricot", "Pêche", "Violette (Condrieu)", "Miel", "Amande amère"], desc: "Nez généreux sur l'abricot et la violette, texture ronde (Condrieu)." },
+        { name: "Gewurztraminer", color: "blanc", acidity: "basse", body: "doux", markers: ["Litchi", "Rose", "Clou de girofle"], desc: "Profil exotique très parfumé avec une pointe de sucre résiduel." },
+        { name: "Vin Jaune / Oxydatif", color: "blanc", acidity: "haute", body: "sec", markers: ["Noix / Curry", "Pomme verte", "Amande amère"], desc: "Arômes intenses de noix et curry issus de l'élevage sous voile (Savagnin du Jura)." },
         
         // ROUGES
-        { name: "Pinot Noir", color: "rouge", opacity: "pale", tannins: "faibles", acidity: "haute", markers: ["Cerise fraîche", "Framboise", "Pivoine", "Sous-bois / Champignon", "Terre humide"], desc: "Robe claire, acidité fine, tannins soyeux. Les notes de sous-bois et de pivoine trahissent la Bourgogne ou l'Alsace." },
-        { name: "Cabernet Sauvignon", color: "rouge", opacity: "profonde", tannins: "forts", acidity: "haute", markers: ["Cassis", "Mûre / Myrtille", "Poivron vert", "Tabac / Cigare", "Cèdre", "Menthol / Eucalyptus"], desc: "Les pyrazines (poivron) et la boîte à cigare signent un grand Cabernet. Tannins robustes. Rive gauche bordelaise." },
-        { name: "Cabernet Franc", color: "rouge", opacity: "moyenne", tannins: "moyens", acidity: "haute", markers: ["Framboise", "Poivron vert", "Rafle / Végétal", "Crayon/Graphite"], desc: "Le côté végétal est assumé (Saumur-Champigny, Chinon) mais plus léger et frais que le Cabernet-Sauvignon." },
-        { name: "Syrah (Rhône Nord)", color: "rouge", opacity: "profonde", tannins: "moyens", acidity: "haute", markers: ["Poivre noir", "Violette", "Lardé / Fumé", "Olive/Tapenade", "Sang / Viande crue"], desc: "Le couple Poivre Noir / Lard Fumé est le détecteur de mensonge de la Syrah (Côte-Rôtie, Cornas)." },
-        { name: "Grenache", color: "rouge", opacity: "moyenne", tannins: "moyens", acidity: "basse", markers: ["Fraise écrasée", "Pruneau / Confiture", "Figue", "Garrigue / Thym", "Poivre blanc"], desc: "Solaire, chaleureux, haut en alcool (larmes épaisses). Châteauneuf-du-Pape, Espagne, ou Roussillon." },
-        { name: "Merlot", color: "rouge", opacity: "profonde", tannins: "moyens", acidity: "moyenne", markers: ["Cerise fraîche", "Pruneau / Confiture", "Cacao / Chocolat", "Sous-bois / Champignon", "Truffe"], desc: "Rond et charnu, souvent marqué par la truffe et le cacao en vieillissant (Pomerol, St-Émilion)." },
-        { name: "Mourvèdre", color: "rouge", opacity: "profonde", tannins: "forts", acidity: "moyenne", markers: ["Mûre / Myrtille", "Cuir", "Sang / Viande crue", "Écurie (Bretts)", "Terre humide"], desc: "Sauvage, tannique, réducteur. Arômes animaux très forts (Bandol, Espagne)." },
-        { name: "Gamay", color: "rouge", opacity: "pale", tannins: "faibles", acidity: "haute", markers: ["Cerise fraîche", "Fraise écrasée", "Pivoine", "Banane/Bonbon (Macération)"], desc: "Ultra fruité, léger, digeste. Typique de la macération carbonique du Beaujolais." }
+        { name: "Pinot Noir", color: "rouge", opacity: "pale", tannins: "faibles", acidity: "haute", markers: ["Cerise fraîche", "Framboise", "Pivoine", "Sous-bois / Champignon", "Terre humide"], desc: "Robe claire, acidité fraîche, tannins fins. Notes de pivoine et sous-bois." },
+        { name: "Cabernet Sauvignon", color: "rouge", opacity: "profonde", tannins: "forts", acidity: "haute", markers: ["Cassis", "Mûre / Myrtille", "Poivron vert", "Tabac / Cigare", "Cèdre", "Menthol / Eucalyptus"], desc: "Poivron, cèdre et boîte à cigare avec une structure tannique affirmée (Rive Gauche)." },
+        { name: "Cabernet Franc", color: "rouge", opacity: "moyenne", tannins: "moyens", acidity: "haute", markers: ["Framboise", "Poivron vert", "Rafle / Végétal", "Crayon/Graphite"], desc: "Notes végétales et de graphite fraîches (Chinon, Saumur-Champigny)." },
+        { name: "Syrah (Rhône Nord)", color: "rouge", opacity: "profonde", tannins: "moyens", acidity: "haute", markers: ["Poivre noir", "Violette", "Lardé / Fumé", "Olive/Tapenade", "Sang / Viande crue"], desc: "Poivre noir, lardé/fumé et violette (Côte-Rôtie, Cornas)." },
+        { name: "Grenache", color: "rouge", opacity: "moyenne", tannins: "moyens", acidity: "basse", markers: ["Fraise écrasée", "Pruneau / Confiture", "Figue", "Garrigue / Thym", "Poivre blanc"], desc: "Chaleureux, généreux en alcool avec arômes de fruits mûrs et garrigue." },
+        { name: "Merlot", color: "rouge", opacity: "profonde", tannins: "moyens", acidity: "moyenne", markers: ["Cerise fraîche", "Pruneau / Confiture", "Cacao / Chocolat", "Sous-bois / Champignon", "Truffe"], desc: "Rond et velouté, évoluant vers le cacao et la truffe (Pomerol, St-Émilion)." },
+        { name: "Mourvèdre", color: "rouge", opacity: "profonde", tannins: "forts", acidity: "moyenne", markers: ["Mûre / Myrtille", "Cuir", "Sang / Viande crue", "Écurie (Bretts)", "Terre humide"], desc: "Caractère sauvage, tannique et notes animales (Bandol)." },
+        { name: "Gamay", color: "rouge", opacity: "pale", tannins: "faibles", acidity: "haute", markers: ["Cerise fraîche", "Fraise écrasée", "Pivoine", "Banane/Bonbon (Macération)"], desc: "Fruité, léger et croquant (Macération carbonique du Beaujolais)." }
     ];
 
-    // --- ETAT DE L'APPLICATION ---
     let currentStep = 1;
     let state = {
         couleur: null, opacite: null, larmes: null,
@@ -327,7 +334,6 @@
         acidite: null, tannins: null, sucre: null
     };
 
-    // --- LOGIQUE INTERFACE ---
     function selectRadio(category, value) {
         state[category] = value;
         const grid = document.getElementById(`${category}-grid`);
@@ -387,7 +393,6 @@
         currentStep += dir;
         document.getElementById(`step-${currentStep}`).classList.add('active');
         
-        // Navigation fluide (Boutons flexibles)
         document.getElementById('btn-prev').style.display = (currentStep === 1) ? 'none' : 'block';
         
         const btnNext = document.getElementById('btn-next');
@@ -397,7 +402,7 @@
         else if (currentStep === 4) {
             btnNext.innerText = "Nouvelle Enquête ↺";
             btnNext.onclick = () => location.reload();
-            document.getElementById('btn-prev').style.display = 'none'; // Cacher 'précédent' sur le verdict
+            document.getElementById('btn-prev').style.display = 'none';
         }
         
         if(currentStep < 4) btnNext.onclick = () => changeStep(1);
@@ -421,7 +426,6 @@
         btnNext.disabled = !isValid;
     }
 
-    // --- MOTEUR DE DÉDUCTION ---
     function calculateVerdict() {
         let results = [];
         
@@ -443,7 +447,6 @@
                 }
             });
 
-            // Silver Bullets
             const killerCombos = {
                 "Pétrole / Hydrocarbure": "Riesling",
                 "Cire d'abeille": ["Chenin Blanc (Évolué)", "Sémillon (Évolué)"],
@@ -482,7 +485,7 @@
         results.slice(0, 3).forEach((res, index) => {
             const card = document.createElement('div');
             card.className = 'match-card';
-            if (index === 0) card.classList.add('winner'); // Applique le fond doré/bordure or au 1er
+            if (index === 0) card.classList.add('winner');
             
             card.innerHTML = `
                 <div class="match-title">
