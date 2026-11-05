@@ -6,6 +6,8 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="theme-color" id="meta-theme-color" content="#fcfbf9">
+    <link rel="manifest" href="./manifest.json">
+    <link rel="apple-touch-icon" href="./icon-192.png">
     <title>Sherlock - Dégustation Avancée</title>
     
     <style>
@@ -401,7 +403,7 @@
     window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', updateMetaThemeColor);
     initTheme();
 
-    // --- GESTION DU CACHE ET PWA ---
+    // --- GESTION DU CACHE ET PWA (SERVICE WORKER) ---
     const APP_VERSION = "v1.4.0";
     function setCacheStatus(text, state) {
         const label = document.getElementById('cache-status');
@@ -414,29 +416,28 @@
     window.addEventListener('offline', () => setCacheStatus('Hors-ligne', 'offline'));
 
     if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.getRegistrations().then(registrations => {
-            if (registrations.length === 0) {
-                setCacheStatus(navigator.onLine ? 'En ligne' : 'Hors-ligne', navigator.onLine ? 'online' : 'offline');
-            }
-            registrations.forEach(registration => {
-                setCacheStatus('Vérification...', 'updating');
-                registration.update();
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('./sw.js').then(registration => {
+                setCacheStatus('À jour (PWA)', 'online');
+                
                 registration.addEventListener('updatefound', () => {
                     const worker = registration.installing;
                     setCacheStatus('Téléchargement...', 'updating');
                     worker.addEventListener('statechange', () => {
                         if (worker.state === 'installed') {
                             if (navigator.serviceWorker.controller) {
+                                setCacheStatus('Mise à jour disponible !', 'updating');
                                 caches.keys().then(keys => Promise.all(keys.map(k => caches.delete(k))))
                                     .then(() => window.location.reload(true));
-                            } else {
-                                setCacheStatus('À jour (PWA)', 'online');
                             }
                         }
                     });
                 });
+            }).catch(err => {
+                console.log('SW Registration failed: ', err);
+                setCacheStatus('En ligne', 'online');
             });
-        }).catch(() => setCacheStatus('En ligne', 'online'));
+        });
     } else {
         setCacheStatus('En ligne', 'online');
     }
@@ -636,22 +637,18 @@
                 }
             });
 
-            // COMBOS SPÉCIFIQUES POUR ASSEMBLAGES (Détection croisée multi-cépages)
+            // COMBOS SPÉCIFIQUES POUR ASSEMBLAGES
             if (state.couleur === 'rouge') {
-                // GSM (Garrigue/Fraise + Poivre/Tapenade + Cuir/Pruneau)
                 if (has("Garrigue / Thym") && (has("Poivre noir") || has("Olive / Tapenade")) && (has("Fraise écrasée") || has("Cuir"))) {
                     if (cepage.name === "Assemblage GSM (Rhône Méridional)") score += 8;
                 }
-                // Bordeaux Rive Gauche (Cassis + Poivron + Boîte à Cigare / Cèdre)
                 if (has("Cassis") && has("Poivron vert") && (has("Cèdre / Bois") || has("Tabac / Cigare"))) {
                     if (cepage.name === "Assemblage Bordeaux Rive Gauche") score += 8;
                 }
-                // Bordeaux Rive Droite (Cerise/Pruneau + Cacao/Truffe + Poivron)
                 if (has("Cacao / Chocolat") && (has("Cerise fraîche") || has("Pruneau / Confiture")) && (has("Truffe") || has("Poivron vert"))) {
                     if (cepage.name === "Assemblage Bordeaux Rive Droite") score += 8;
                 }
             } else {
-                // Bordeaux Blanc (Agrumes + Beurre/Brioche + Cire/Noisette)
                 if ((has("Citron") || has("Pamplemousse")) && has("Beurre / Brioche") && (has("Cire d'abeille") || has("Noisette grillée"))) {
                     if (cepage.name === "Assemblage Bordeaux Blanc") score += 8;
                 }
