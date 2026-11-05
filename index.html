@@ -5,27 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <!-- Meta Theme Color : Clair par défaut, Sombre si détecté -->
     <meta name="theme-color" content="#fcfbf9" media="(prefers-color-scheme: light)">
     <meta name="theme-color" content="#121212" media="(prefers-color-scheme: dark)">
     <title>Sherlock - Dégustation Avancée</title>
     
     <style>
-        /* Thème clair par défaut (Option par défaut si non détecté) */
         :root {
             --bg-color: #fcfbf9;
             --text-color: #2c2c2c;
             --text-muted: #666666;
-            --primary: #722F37; /* Bordeaux MyLittleCellar */
+            --primary: #722F37;
             --primary-light: rgba(114, 47, 55, 0.1);
-            --secondary: #d4af37; /* Or MyLittleCellar */
+            --secondary: #d4af37;
             --card-bg: #ffffff;
             --border: #e0e0e0;
             --tag-bg: #f5f5f5;
             --btn-text: #ffffff;
         }
 
-        /* Mode Sombre (Activité uniquement si détecté par le système du smartphone) */
         @media (prefers-color-scheme: dark) {
             :root {
                 --bg-color: #121212;
@@ -40,7 +37,6 @@
             }
         }
 
-        /* Reset & Layout de base */
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         
         body {
@@ -62,12 +58,10 @@
         h2 { font-size: clamp(1.2rem, 3vw, 1.4rem); color: var(--secondary); margin-bottom: 15px; border-bottom: 2px solid var(--primary-light); padding-bottom: 8px;}
         h3 { font-size: 0.85rem; margin: 20px 0 10px 0; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
 
-        /* Step animations */
         .step { display: none; animation: fadeIn 0.35s ease-out; }
         .step.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* Grille à 2 choix */
         .grid-2 { 
             display: grid; 
             grid-template-columns: 1fr 1fr; 
@@ -75,7 +69,6 @@
             margin-bottom: 15px; 
         }
 
-        /* Forçage strict des 3 choix sur UNE SEULE ligne */
         .grid-3 { 
             display: grid; 
             grid-template-columns: repeat(3, 1fr) !important; 
@@ -83,7 +76,6 @@
             margin-bottom: 15px; 
         }
 
-        /* Style des boutons radio */
         .btn-radio {
             background: var(--card-bg);
             border: 2px solid var(--border);
@@ -102,7 +94,6 @@
             line-height: 1.2;
         }
 
-        /* Adaptation spécifique pour les boutons forcés à 3 par ligne */
         .grid-3 .btn-radio {
             font-size: clamp(0.68rem, 2.4vw, 0.85rem);
             padding: 10px 2px;
@@ -117,7 +108,6 @@
             color: var(--primary);
         }
 
-        /* Tags d'arômes */
         .tags-container {
             display: flex;
             flex-wrap: wrap;
@@ -141,7 +131,6 @@
             border-color: var(--primary);
         }
 
-        /* Navigation bas */
         .nav-bar {
             position: fixed;
             bottom: 0; left: 0; right: 0;
@@ -174,7 +163,6 @@
         .btn-nav:disabled { opacity: 0.4; cursor: not-allowed; }
         .btn-outline { background: transparent; border: 2px solid var(--text-muted); color: var(--text-muted); }
 
-        /* Cartes de résultat */
         .match-card {
             background: var(--card-bg);
             border: 2px solid var(--border);
@@ -298,9 +286,9 @@
             { cat: "Élevage & Évolution", tags: ["Beurre / Brioche", "Noisette grillée", "Vanille", "Cire d'abeille", "Miel", "Laine mouillée", "Noix / Curry", "Amande amère"] }
         ],
         rouge: [
-            { cat: "Fruité", tags: ["Cerise fraîche", "Framboise", "Cassis", "Mûre / Myrtille", "Fraise écrasée", "Pruneau / Confiture", "Figue"] },
-            { cat: "Floral & Végétal", tags: ["Pivoine", "Violette", "Poivron vert", "Rafle / Végétal", "Garrigue / Thym", "Menthol / Eucalyptus"] },
-            { cat: "Épices & Empyreumatique", tags: ["Poivre noir", "Poivre blanc", "Clou de girofle", "Réglisse", "Tabac / Cigare", "Cacao / Chocolat", "Lardé / Fumé"] },
+            { cat: "Fruité", tags: ["Cerise fraîche", "Cerise aigre / Griotte", "Framboise", "Fraise écrasée", "Fraise séchée", "Cassis", "Mûre / Myrtille", "Pruneau / Confiture", "Figue"] },
+            { cat: "Floral & Végétal", tags: ["Pivoine", "Rose fanée", "Violette", "Poivron vert", "Feuille de thé", "Origan / Herbes séchées", "Rafle / Végétal", "Garrigue / Thym", "Menthol / Eucalyptus"] },
+            { cat: "Épices & Empyreumatique", tags: ["Poivre noir", "Poivre blanc", "Clou de girofle", "Réglisse", "Tabac / Cigare", "Cacao / Chocolat", "Lardé / Fumé", "Goudron / Bitume", "Espresso / Café"] },
             { cat: "Animal & Évolution", tags: ["Cuir", "Sang / Viande crue", "Écurie (Bretts)", "Sous-bois / Champignon", "Truffe", "Terre humide"] }
         ]
     };
@@ -317,8 +305,11 @@
         { name: "Vin Jaune / Oxydatif", color: "blanc", acidity: "haute", body: "sec", markers: ["Noix / Curry", "Pomme verte", "Amande amère"], desc: "Arômes intenses de noix et curry issus de l'élevage sous voile (Savagnin du Jura)." },
         
         // ROUGES
+        { name: "Nebbiolo", color: "rouge", opacity: "pale", tannins: "forts", acidity: "haute", markers: ["Rose fanée", "Goudron / Bitume", "Cerise aigre / Griotte", "Cuir", "Réglisse", "Terre humide"], desc: "Piège absolu à l'aveugle : robe claire et orangée mais acidité très haute et tannins très asséchants. Marqueurs de rose fanée et goudron (Barolo, Barbaresco)." },
+        { name: "Sangiovese", color: "rouge", opacity: "moyenne", tannins: "forts", acidity: "haute", markers: ["Cerise aigre / Griotte", "Feuille de thé", "Origan / Herbes séchées", "Cuir", "Poivre noir"], desc: "Haute acidité, tannins fermes et arômes de cerise griotte, feuille de thé et herbes séchées (Chianti Classico, Brunello di Montalcino)." },
+        { name: "Tempranillo", color: "rouge", opacity: "profonde", tannins: "moyens", acidity: "moyenne", markers: ["Fraise séchée", "Tabac / Cigare", "Cuir", "Vanille", "Espresso / Café", "Pruneau / Confiture"], desc: "Alliance de fruits séchés, cuir et notes boisées douces (vanille, café, tabac) issues du long élevage en fût (Rioja, Ribera del Duero)." },
         { name: "Pinot Noir", color: "rouge", opacity: "pale", tannins: "faibles", acidity: "haute", markers: ["Cerise fraîche", "Framboise", "Pivoine", "Sous-bois / Champignon", "Terre humide"], desc: "Robe claire, acidité fraîche, tannins fins. Notes de pivoine et sous-bois." },
-        { name: "Cabernet Sauvignon", color: "rouge", opacity: "profonde", tannins: "forts", acidity: "haute", markers: ["Cassis", "Mûre / Myrtille", "Poivron vert", "Tabac / Cigare", "Cèdre", "Menthol / Eucalyptus"], desc: "Poivron, cèdre et boîte à cigare avec une structure tannique affirmée (Rive Gauche)." },
+        { name: "Cabernet Sauvignon", color: "rouge", opacity: "profonde", tannins: "forts", acidity: "haute", markers: ["Cassis", "Mûre / Myrtille", "Poivron vert", "Tabac / Cigare", "Espresso / Café", "Menthol / Eucalyptus"], desc: "Poivron, cèdre et boîte à cigare avec une structure tannique affirmée (Rive Gauche)." },
         { name: "Cabernet Franc", color: "rouge", opacity: "moyenne", tannins: "moyens", acidity: "haute", markers: ["Framboise", "Poivron vert", "Rafle / Végétal", "Crayon/Graphite"], desc: "Notes végétales et de graphite fraîches (Chinon, Saumur-Champigny)." },
         { name: "Syrah (Rhône Nord)", color: "rouge", opacity: "profonde", tannins: "moyens", acidity: "haute", markers: ["Poivre noir", "Violette", "Lardé / Fumé", "Olive/Tapenade", "Sang / Viande crue"], desc: "Poivre noir, lardé/fumé et violette (Côte-Rôtie, Cornas)." },
         { name: "Grenache", color: "rouge", opacity: "moyenne", tannins: "moyens", acidity: "basse", markers: ["Fraise écrasée", "Pruneau / Confiture", "Figue", "Garrigue / Thym", "Poivre blanc"], desc: "Chaleureux, généreux en alcool avec arômes de fruits mûrs et garrigue." },
@@ -453,7 +444,12 @@
                 "Poivron vert": ["Cabernet Sauvignon", "Cabernet Franc"],
                 "Lardé / Fumé": "Syrah (Rhône Nord)",
                 "Banane/Bonbon (Macération)": "Gamay",
-                "Noix / Curry": "Vin Jaune / Oxydatif"
+                "Noix / Curry": "Vin Jaune / Oxydatif",
+                "Rose fanée": "Nebbiolo",
+                "Goudron / Bitume": "Nebbiolo",
+                "Feuille de thé": "Sangiovese",
+                "Origan / Herbes séchées": "Sangiovese",
+                "Fraise séchée": "Tempranillo"
             };
 
             state.aromas.forEach(tag => {
