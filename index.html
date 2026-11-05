@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <!-- Meta Theme Color géré dynamiquement par le script -->
     <meta name="theme-color" id="meta-theme-color" content="#fcfbf9">
     <title>Sherlock - Dégustation Avancée</title>
     
@@ -77,7 +76,6 @@
 
         h1 { text-align: center; color: var(--primary); font-size: clamp(1.4rem, 4vw, 2rem); margin: 0 0 0.5rem 0; }
         
-        /* Indicateur de version, statut du cache et bouton Thème */
         .status-badge {
             text-align: center;
             font-size: 0.75rem;
@@ -270,7 +268,7 @@
     <div class="status-badge">
         <span class="status-pill">
             <span class="status-dot" id="status-dot"></span>
-            <span id="app-version">v1.3.0</span> • <span id="cache-status">Vérification...</span>
+            <span id="app-version">v1.4.0</span> • <span id="cache-status">Vérification...</span>
         </span>
         <button class="theme-toggle-btn" onclick="toggleTheme()" id="theme-btn">Thème : Auto 🌓</button>
     </div>
@@ -404,7 +402,7 @@
     initTheme();
 
     // --- GESTION DU CACHE ET PWA ---
-    const APP_VERSION = "v1.3.0";
+    const APP_VERSION = "v1.4.0";
     function setCacheStatus(text, state) {
         const label = document.getElementById('cache-status');
         const dot = document.getElementById('status-dot');
@@ -453,14 +451,14 @@
         ],
         rouge: [
             { cat: "Fruité", tags: ["Cerise fraîche", "Cerise aigre / Griotte", "Framboise", "Fraise écrasée", "Fraise séchée", "Cassis", "Mûre / Myrtille", "Pruneau / Confiture", "Figue"] },
-            { cat: "Floral & Végétal", tags: ["Pivoine", "Rose fanée", "Violette", "Poivron vert", "Feuille de thé", "Origan / Herbes séchées", "Rafle / Végétal", "Garrigue / Thym", "Menthol / Eucalyptus"] },
-            { cat: "Épices & Empyreumatique", tags: ["Poivre noir", "Poivre blanc", "Clou de girofle", "Réglisse", "Tabac / Cigare", "Cacao / Chocolat", "Lardé / Fumé", "Goudron / Bitume", "Espresso / Café"] },
+            { cat: "Floral & Végétal", tags: ["Pivoine", "Rose fanée", "Violette", "Poivron vert", "Feuille de thé", "Origan / Herbes séchées", "Rafle / Végétal", "Garrigue / Thym", "Menthol / Eucalyptus", "Olive / Tapenade"] },
+            { cat: "Épices & Empyreumatique", tags: ["Poivre noir", "Poivre blanc", "Clou de girofle", "Réglisse", "Tabac / Cigare", "Cèdre / Bois", "Cacao / Chocolat", "Lardé / Fumé", "Goudron / Bitume", "Espresso / Café"] },
             { cat: "Animal & Évolution", tags: ["Cuir", "Sang / Viande crue", "Écurie (Bretts)", "Sous-bois / Champignon", "Truffe", "Terre humide"] }
         ]
     };
 
     const database = [
-        // BLANCS
+        // BLANCS MONOCÉPAGES
         { name: "Chenin Blanc (Évolué)", color: "blanc", acidity: "haute", body: "sec", markers: ["Coing", "Pomme verte", "Cire d'abeille", "Laine mouillée", "Miel", "Craie / Iode"], desc: "Cire d'abeille et laine humide associées à une forte acidité signent un grand Chenin de Loire (Savennières, Vouvray)." },
         { name: "Sémillon (Évolué)", color: "blanc", acidity: "basse", body: "gras", markers: ["Cire d'abeille", "Miel", "Abricot", "Noisette grillée", "Beurre / Brioche"], desc: "Note de cire avec acidité basse et matière grasse : typique du Sémillon évolué." },
         { name: "Riesling", color: "blanc", acidity: "haute", body: "sec", markers: ["Citron", "Pamplemousse", "Pétrole / Hydrocarbure", "Fleurs blanches", "Pierre à fusil"], desc: "Tension vivace et note de pétrole (TDN) après quelques années de garde (Alsace, Allemagne)." },
@@ -469,19 +467,27 @@
         { name: "Viognier", color: "blanc", acidity: "basse", body: "gras", markers: ["Abricot", "Pêche", "Violette (Condrieu)", "Miel", "Amande amère"], desc: "Nez généreux sur l'abricot et la violette, texture ronde (Condrieu)." },
         { name: "Gewurztraminer", color: "blanc", acidity: "basse", body: "doux", markers: ["Litchi", "Rose", "Clou de girofle"], desc: "Profil exotique très parfumé avec une pointe de sucre résiduel." },
         { name: "Vin Jaune / Oxydatif", color: "blanc", acidity: "haute", body: "sec", markers: ["Noix / Curry", "Pomme verte", "Amande amère"], desc: "Arômes intenses de noix et curry issus de l'élevage sous voile (Savagnin du Jura)." },
+
+        // BLANCS ASSEMBLAGE
+        { name: "Assemblage Bordeaux Blanc", color: "blanc", acidity: "moyenne", body: "gras", markers: ["Citron", "Pamplemousse", "Beurre / Brioche", "Noisette grillée", "Cire d'abeille", "Pêche"], desc: "Alliance classique Sauvignon/Sémillon (Pessac-Léognan, Graves). La vivacité agrumes du Sauvignon est enrobée par le gras, la cire et l'élevage sous bois du Sémillon." },
         
-        // ROUGES
+        // ROUGES MONOCÉPAGES
         { name: "Nebbiolo", color: "rouge", opacity: "pale", tannins: "forts", acidity: "haute", markers: ["Rose fanée", "Goudron / Bitume", "Cerise aigre / Griotte", "Cuir", "Réglisse", "Terre humide"], desc: "Piège absolu à l'aveugle : robe claire et orangée mais acidité haute et tannins massifs (Barolo, Barbaresco)." },
         { name: "Sangiovese", color: "rouge", opacity: "moyenne", tannins: "forts", acidity: "haute", markers: ["Cerise aigre / Griotte", "Feuille de thé", "Origan / Herbes séchées", "Cuir", "Poivre noir"], desc: "Haute acidité, tannins fermes, griotte, feuille de thé et herbes séchées (Chianti Classico, Brunello)." },
         { name: "Tempranillo", color: "rouge", opacity: "profonde", tannins: "moyens", acidity: "moyenne", markers: ["Fraise séchée", "Tabac / Cigare", "Cuir", "Vanille", "Espresso / Café", "Pruneau / Confiture"], desc: "Fruits séchés, cuir et notes boisées douces (vanille, café, tabac) issues de l'élevage (Rioja, Ribera del Duero)." },
         { name: "Pinot Noir", color: "rouge", opacity: "pale", tannins: "faibles", acidity: "haute", markers: ["Cerise fraîche", "Framboise", "Pivoine", "Sous-bois / Champignon", "Terre humide"], desc: "Robe claire, acidité fraîche, tannins fins. Notes de pivoine et sous-bois." },
-        { name: "Cabernet Sauvignon", color: "rouge", opacity: "profonde", tannins: "forts", acidity: "haute", markers: ["Cassis", "Mûre / Myrtille", "Poivron vert", "Tabac / Cigare", "Espresso / Café", "Menthol / Eucalyptus"], desc: "Poivron, cèdre et boîte à cigare avec une structure tannique affirmée (Rive Gauche)." },
+        { name: "Cabernet Sauvignon", color: "rouge", opacity: "profonde", tannins: "forts", acidity: "haute", markers: ["Cassis", "Mûre / Myrtille", "Poivron vert", "Tabac / Cigare", "Espresso / Café", "Menthol / Eucalyptus", "Cèdre / Bois"], desc: "Poivron, cèdre et boîte à cigare avec une structure tannique affirmée." },
         { name: "Cabernet Franc", color: "rouge", opacity: "moyenne", tannins: "moyens", acidity: "haute", markers: ["Framboise", "Poivron vert", "Rafle / Végétal", "Crayon/Graphite"], desc: "Notes végétales et de graphite fraîches (Chinon, Saumur-Champigny)." },
-        { name: "Syrah (Rhône Nord)", color: "rouge", opacity: "profonde", tannins: "moyens", acidity: "haute", markers: ["Poivre noir", "Violette", "Lardé / Fumé", "Olive/Tapenade", "Sang / Viande crue"], desc: "Poivre noir, lardé/fumé et violette (Côte-Rôtie, Cornas)." },
+        { name: "Syrah (Rhône Nord)", color: "rouge", opacity: "profonde", tannins: "moyens", acidity: "haute", markers: ["Poivre noir", "Violette", "Lardé / Fumé", "Olive / Tapenade", "Sang / Viande crue"], desc: "Poivre noir, lardé/fumé et violette (Côte-Rôtie, Cornas)." },
         { name: "Grenache", color: "rouge", opacity: "moyenne", tannins: "moyens", acidity: "basse", markers: ["Fraise écrasée", "Pruneau / Confiture", "Figue", "Garrigue / Thym", "Poivre blanc"], desc: "Chaleureux, généreux en alcool avec arômes de fruits mûrs et garrigue." },
-        { name: "Merlot", color: "rouge", opacity: "profonde", tannins: "moyens", acidity: "moyenne", markers: ["Cerise fraîche", "Pruneau / Confiture", "Cacao / Chocolat", "Sous-bois / Champignon", "Truffe"], desc: "Rond et velouté, évoluant vers le cacao et la truffe (Pomerol, St-Émilion)." },
+        { name: "Merlot", color: "rouge", opacity: "profonde", tannins: "moyens", acidity: "moyenne", markers: ["Cerise fraîche", "Pruneau / Confiture", "Cacao / Chocolat", "Sous-bois / Champignon", "Truffe"], desc: "Rond et velouté, évoluant vers le cacao et la truffe." },
         { name: "Mourvèdre", color: "rouge", opacity: "profonde", tannins: "forts", acidity: "moyenne", markers: ["Mûre / Myrtille", "Cuir", "Sang / Viande crue", "Écurie (Bretts)", "Terre humide"], desc: "Caractère sauvage, tannique et notes animales (Bandol)." },
-        { name: "Gamay", color: "rouge", opacity: "pale", tannins: "faibles", acidity: "haute", markers: ["Cerise fraîche", "Fraise écrasée", "Pivoine", "Banane/Bonbon (Macération)"], desc: "Fruité, léger et croquant (Macération carbonique du Beaujolais)." }
+        { name: "Gamay", color: "rouge", opacity: "pale", tannins: "faibles", acidity: "haute", markers: ["Cerise fraîche", "Fraise écrasée", "Pivoine", "Banane/Bonbon (Macération)"], desc: "Fruité, léger et croquant (Macération carbonique du Beaujolais)." },
+
+        // ROUGES ASSEMBLAGE
+        { name: "Assemblage GSM (Rhône Méridional)", color: "rouge", opacity: "profonde", tannins: "moyens", acidity: "moyenne", markers: ["Garrigue / Thym", "Fraise écrasée", "Poivre noir", "Olive / Tapenade", "Pruneau / Confiture", "Cuir", "Figue"], desc: "Châteauneuf-du-Pape, Gigondas, Vacqueyras. La rondeur chaleureuse du Grenache s'allie aux épices et à la tapenade de la Syrah, structurées par le cuir et les tannins du Mourvèdre." },
+        { name: "Assemblage Bordeaux Rive Gauche", color: "rouge", opacity: "profonde", tannins: "forts", acidity: "haute", markers: ["Cassis", "Poivron vert", "Cèdre / Bois", "Tabac / Cigare", "Cerise fraîche", "Menthol / Eucalyptus"], desc: "Médoc, Graves, Pauillac, Margaux (Dominante Cabernet Sauvignon + Merlot). Structure tannique puissante, cassis dense, boîte à cigare et fermeté." },
+        { name: "Assemblage Bordeaux Rive Droite", color: "rouge", opacity: "profonde", tannins: "moyens", acidity: "moyenne", markers: ["Cerise fraîche", "Cacao / Chocolat", "Pruneau / Confiture", "Truffe", "Poivron vert", "Sous-bois / Champignon"], desc: "Saint-Émilion, Pomerol (Dominante Merlot + Cabernet Franc). Bouche ample, veloutée et charnue sur les fruits noirs, la truffe et le cacao avec une touche de graphite." }
     ];
 
     let currentStep = 1;
@@ -585,6 +591,7 @@
 
     function calculateVerdict() {
         let results = [];
+        const has = (tag) => state.aromas.has(tag);
         
         database.forEach(cepage => {
             if (cepage.color !== state.couleur) return;
@@ -604,10 +611,11 @@
                 }
             });
 
+            // Killer Combos Monocépages
             const killerCombos = {
                 "Pétrole / Hydrocarbure": "Riesling",
-                "Cire d'abeille": ["Chenin Blanc (Évolué)", "Sémillon (Évolué)"],
-                "Poivron vert": ["Cabernet Sauvignon", "Cabernet Franc"],
+                "Cire d'abeille": ["Chenin Blanc (Évolué)", "Sémillon (Évolué)", "Assemblage Bordeaux Blanc"],
+                "Poivron vert": ["Cabernet Sauvignon", "Cabernet Franc", "Assemblage Bordeaux Rive Gauche", "Assemblage Bordeaux Rive Droite"],
                 "Lardé / Fumé": "Syrah (Rhône Nord)",
                 "Banane/Bonbon (Macération)": "Gamay",
                 "Noix / Curry": "Vin Jaune / Oxydatif",
@@ -627,6 +635,27 @@
                     }
                 }
             });
+
+            // COMBOS SPÉCIFIQUES POUR ASSEMBLAGES (Détection croisée multi-cépages)
+            if (state.couleur === 'rouge') {
+                // GSM (Garrigue/Fraise + Poivre/Tapenade + Cuir/Pruneau)
+                if (has("Garrigue / Thym") && (has("Poivre noir") || has("Olive / Tapenade")) && (has("Fraise écrasée") || has("Cuir"))) {
+                    if (cepage.name === "Assemblage GSM (Rhône Méridional)") score += 8;
+                }
+                // Bordeaux Rive Gauche (Cassis + Poivron + Boîte à Cigare / Cèdre)
+                if (has("Cassis") && has("Poivron vert") && (has("Cèdre / Bois") || has("Tabac / Cigare"))) {
+                    if (cepage.name === "Assemblage Bordeaux Rive Gauche") score += 8;
+                }
+                // Bordeaux Rive Droite (Cerise/Pruneau + Cacao/Truffe + Poivron)
+                if (has("Cacao / Chocolat") && (has("Cerise fraîche") || has("Pruneau / Confiture")) && (has("Truffe") || has("Poivron vert"))) {
+                    if (cepage.name === "Assemblage Bordeaux Rive Droite") score += 8;
+                }
+            } else {
+                // Bordeaux Blanc (Agrumes + Beurre/Brioche + Cire/Noisette)
+                if ((has("Citron") || has("Pamplemousse")) && has("Beurre / Brioche") && (has("Cire d'abeille") || has("Noisette grillée"))) {
+                    if (cepage.name === "Assemblage Bordeaux Blanc") score += 8;
+                }
+            }
 
             if (score > 0) results.push({ ...cepage, score, matchedMarkers });
         });
