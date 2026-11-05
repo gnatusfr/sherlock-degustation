@@ -54,7 +54,37 @@
             margin: 0 auto;
         }
 
-        h1 { text-align: center; color: var(--primary); font-size: clamp(1.4rem, 4vw, 2rem); margin-bottom: 1.5rem; }
+        h1 { text-align: center; color: var(--primary); font-size: clamp(1.4rem, 4vw, 2rem); margin-bottom: 0.3rem; }
+        
+        /* Indicateur de version et statut du cache */
+        .status-badge {
+            text-align: center;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+        }
+        .status-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--tag-bg);
+            border: 1px solid var(--border);
+            padding: 4px 10px;
+            border-radius: 15px;
+            font-weight: 500;
+        }
+        .status-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background-color: #888;
+        }
+        .status-dot.online { background-color: #2e7d32; }
+        .status-dot.updating { background-color: var(--secondary); animation: pulse 1s infinite alternate; }
+        .status-dot.offline { background-color: #c62828; }
+
+        @keyframes pulse { from { opacity: 0.3; } to { opacity: 1; } }
+
         h2 { font-size: clamp(1.2rem, 3vw, 1.4rem); color: var(--secondary); margin-bottom: 15px; border-bottom: 2px solid var(--primary-light); padding-bottom: 8px;}
         h3 { font-size: 0.85rem; margin: 20px 0 10px 0; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
 
@@ -196,32 +226,18 @@
 
     </style>
 </head>
-
-<script>
-  // Purge et rechargement automatique en cas de déploiement
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.getRegistrations().then(registrations => {
-      for (let registration of registrations) {
-        registration.update();
-        registration.addEventListener('updatefound', () => {
-          const worker = registration.installing;
-          worker.addEventListener('statechange', () => {
-            if (worker.state === 'installed' && navigator.serviceWorker.controller) {
-              // Supprime tous les caches et force le rechargement depuis le serveur
-              caches.keys().then(keys => Promise.all(keys.map(k => caches.delete(k))))
-                .then(() => window.location.reload(true));
-            }
-          });
-        });
-      }
-    });
-  }
-</script>
-    
 <body>
 
 <div class="container">
     <h1>🔍 Sherlock Œnologie</h1>
+    
+    <!-- STATUT DE VERSION ET CACHE -->
+    <div class="status-badge">
+        <span class="status-pill">
+            <span class="status-dot" id="status-dot"></span>
+            <span id="app-version">v1.2.0</span> • <span id="cache-status">Vérification...</span>
+        </span>
+    </div>
 
     <!-- ÉTAPE 1 : COULEUR & VISUEL -->
     <div id="step-1" class="step active">
@@ -300,6 +316,54 @@
 </div>
 
 <script>
+    // --- GESTION DU STATUT DU CACHE ET DE LA VERSION ---
+    const APP_VERSION = "v1.2.0";
+    document.getElementById('app-version').innerText = APP_VERSION;
+
+    function setCacheStatus(text, state) {
+        const label = document.getElementById('cache-status');
+        const dot = document.getElementById('status-dot');
+        if (label) label.innerText = text;
+        if (dot) dot.className = `status-dot ${state}`;
+    }
+
+    // Gestion du mode réseau (En ligne / Hors-ligne)
+    window.addEventListener('online', () => setCacheStatus('En ligne (À jour)', 'online'));
+    window.addEventListener('offline', () => setCacheStatus('Hors-ligne (Cache actif)', 'offline'));
+
+    // Inspection du Service Worker
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.getRegistrations().then(registrations => {
+            if (registrations.length === 0) {
+                setCacheStatus(navigator.onLine ? 'En ligne' : 'Hors-ligne', navigator.onLine ? 'online' : 'offline');
+            }
+            registrations.forEach(registration => {
+                setCacheStatus('Vérification...', 'updating');
+                registration.update();
+                registration.addEventListener('updatefound', () => {
+                    const worker = registration.installing;
+                    setCacheStatus('Téléchargement màj...', 'updating');
+                    worker.addEventListener('statechange', () => {
+                        if (worker.state === 'installed') {
+                            if (navigator.serviceWorker.controller) {
+                                setCacheStatus('Mise à jour prête ! Purge...', 'updating');
+                                caches.keys().then(keys => Promise.all(keys.map(k => caches.delete(k))))
+                                    .then(() => window.location.reload(true));
+                            } else {
+                                setCacheStatus('À jour (PWA prête)', 'online');
+                            }
+                        }
+                    });
+                });
+            });
+        }).catch(() => {
+            setCacheStatus(navigator.onLine ? 'En ligne' : 'Hors-ligne', navigator.onLine ? 'online' : 'offline');
+        });
+    } else {
+        setCacheStatus(navigator.onLine ? 'En ligne' : 'Hors-ligne', navigator.onLine ? 'online' : 'offline');
+    }
+
+    // --- BASE DE DONNÉES ---
     const aromasLibrary = {
         blanc: [
             { cat: "Fruité", tags: ["Citron", "Pamplemousse", "Pomme verte", "Poire", "Coing", "Pêche", "Abricot", "Ananas", "Litchi"] },
@@ -327,9 +391,9 @@
         { name: "Vin Jaune / Oxydatif", color: "blanc", acidity: "haute", body: "sec", markers: ["Noix / Curry", "Pomme verte", "Amande amère"], desc: "Arômes intenses de noix et curry issus de l'élevage sous voile (Savagnin du Jura)." },
         
         // ROUGES
-        { name: "Nebbiolo", color: "rouge", opacity: "pale", tannins: "forts", acidity: "haute", markers: ["Rose fanée", "Goudron / Bitume", "Cerise aigre / Griotte", "Cuir", "Réglisse", "Terre humide"], desc: "Piège absolu à l'aveugle : robe claire et orangée mais acidité très haute et tannins très asséchants. Marqueurs de rose fanée et goudron (Barolo, Barbaresco)." },
-        { name: "Sangiovese", color: "rouge", opacity: "moyenne", tannins: "forts", acidity: "haute", markers: ["Cerise aigre / Griotte", "Feuille de thé", "Origan / Herbes séchées", "Cuir", "Poivre noir"], desc: "Haute acidité, tannins fermes et arômes de cerise griotte, feuille de thé et herbes séchées (Chianti Classico, Brunello di Montalcino)." },
-        { name: "Tempranillo", color: "rouge", opacity: "profonde", tannins: "moyens", acidity: "moyenne", markers: ["Fraise séchée", "Tabac / Cigare", "Cuir", "Vanille", "Espresso / Café", "Pruneau / Confiture"], desc: "Alliance de fruits séchés, cuir et notes boisées douces (vanille, café, tabac) issues du long élevage en fût (Rioja, Ribera del Duero)." },
+        { name: "Nebbiolo", color: "rouge", opacity: "pale", tannins: "forts", acidity: "haute", markers: ["Rose fanée", "Goudron / Bitume", "Cerise aigre / Griotte", "Cuir", "Réglisse", "Terre humide"], desc: "Piège absolu à l'aveugle : robe claire et orangée mais acidité haute et tannins massifs (Barolo, Barbaresco)." },
+        { name: "Sangiovese", color: "rouge", opacity: "moyenne", tannins: "forts", acidity: "haute", markers: ["Cerise aigre / Griotte", "Feuille de thé", "Origan / Herbes séchées", "Cuir", "Poivre noir"], desc: "Haute acidité, tannins fermes, griotte, feuille de thé et herbes séchées (Chianti Classico, Brunello)." },
+        { name: "Tempranillo", color: "rouge", opacity: "profonde", tannins: "moyens", acidity: "moyenne", markers: ["Fraise séchée", "Tabac / Cigare", "Cuir", "Vanille", "Espresso / Café", "Pruneau / Confiture"], desc: "Fruits séchés, cuir et notes boisées douces (vanille, café, tabac) issues de l'élevage (Rioja, Ribera del Duero)." },
         { name: "Pinot Noir", color: "rouge", opacity: "pale", tannins: "faibles", acidity: "haute", markers: ["Cerise fraîche", "Framboise", "Pivoine", "Sous-bois / Champignon", "Terre humide"], desc: "Robe claire, acidité fraîche, tannins fins. Notes de pivoine et sous-bois." },
         { name: "Cabernet Sauvignon", color: "rouge", opacity: "profonde", tannins: "forts", acidity: "haute", markers: ["Cassis", "Mûre / Myrtille", "Poivron vert", "Tabac / Cigare", "Espresso / Café", "Menthol / Eucalyptus"], desc: "Poivron, cèdre et boîte à cigare avec une structure tannique affirmée (Rive Gauche)." },
         { name: "Cabernet Franc", color: "rouge", opacity: "moyenne", tannins: "moyens", acidity: "haute", markers: ["Framboise", "Poivron vert", "Rafle / Végétal", "Crayon/Graphite"], desc: "Notes végétales et de graphite fraîches (Chinon, Saumur-Champigny)." },
