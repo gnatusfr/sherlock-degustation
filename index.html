@@ -5,26 +5,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="theme-color" content="#fcfbf9" media="(prefers-color-scheme: light)">
-    <meta name="theme-color" content="#121212" media="(prefers-color-scheme: dark)">
+    <!-- Meta Theme Color géré dynamiquement par le script -->
+    <meta name="theme-color" id="meta-theme-color" content="#fcfbf9">
     <title>Sherlock - Dégustation Avancée</title>
     
     <style>
+        /* 1. Configuration native du navigateur (Clair par défaut) */
         :root {
+            color-scheme: light;
             --bg-color: #fcfbf9;
             --text-color: #2c2c2c;
             --text-muted: #666666;
-            --primary: #722F37;
+            --primary: #722F37; /* Bordeaux MyLittleCellar */
             --primary-light: rgba(114, 47, 55, 0.1);
-            --secondary: #d4af37;
+            --secondary: #d4af37; /* Or MyLittleCellar */
             --card-bg: #ffffff;
             --border: #e0e0e0;
             --tag-bg: #f5f5f5;
             --btn-text: #ffffff;
         }
 
+        /* 2. Détection automatique du mode Sombre du smartphone */
         @media (prefers-color-scheme: dark) {
-            :root {
+            :root:not([data-theme="light"]) {
+                color-scheme: dark;
                 --bg-color: #121212;
                 --text-color: #e0e0e0;
                 --text-muted: #999999;
@@ -37,14 +41,30 @@
             }
         }
 
+        /* 3. Forçage manuel (Interrupteur) */
+        [data-theme="dark"] {
+            color-scheme: dark;
+            --bg-color: #121212;
+            --text-color: #e0e0e0;
+            --text-muted: #999999;
+            --primary: #9b404d;
+            --primary-light: rgba(155, 64, 77, 0.15);
+            --secondary: #d4af37;
+            --card-bg: #1e1e1e;
+            --border: #333333;
+            --tag-bg: #2a2a2a;
+        }
+
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         
-        body {
+        html, body {
             font-family: system-ui, -apple-system, sans-serif;
             background-color: var(--bg-color);
             color: var(--text-color);
             margin: 0;
-            padding: 20px 4vw 100px 4vw;
+            padding: 0;
+            width: 100%;
+            min-height: 100vh;
             transition: background-color 0.3s, color 0.3s;
         }
 
@@ -52,16 +72,21 @@
             width: 100%;
             max-width: 800px;
             margin: 0 auto;
+            padding: 20px 4vw 100px 4vw;
         }
 
-        h1 { text-align: center; color: var(--primary); font-size: clamp(1.4rem, 4vw, 2rem); margin-bottom: 0.3rem; }
+        h1 { text-align: center; color: var(--primary); font-size: clamp(1.4rem, 4vw, 2rem); margin: 0 0 0.5rem 0; }
         
-        /* Indicateur de version et statut du cache */
+        /* Indicateur de version, statut du cache et bouton Thème */
         .status-badge {
             text-align: center;
             font-size: 0.75rem;
             color: var(--text-muted);
             margin-bottom: 1.5rem;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
         }
         .status-pill {
             display: inline-flex;
@@ -84,6 +109,17 @@
         .status-dot.offline { background-color: #c62828; }
 
         @keyframes pulse { from { opacity: 0.3; } to { opacity: 1; } }
+
+        .theme-toggle-btn {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            color: var(--text-color);
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            cursor: pointer;
+            font-weight: 600;
+        }
 
         h2 { font-size: clamp(1.2rem, 3vw, 1.4rem); color: var(--secondary); margin-bottom: 15px; border-bottom: 2px solid var(--primary-light); padding-bottom: 8px;}
         h3 { font-size: 0.85rem; margin: 20px 0 10px 0; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
@@ -231,15 +267,14 @@
 <div class="container">
     <h1>🔍 Sherlock Œnologie</h1>
     
-    <!-- STATUT DE VERSION ET CACHE -->
     <div class="status-badge">
         <span class="status-pill">
             <span class="status-dot" id="status-dot"></span>
-            <span id="app-version">v1.2.0</span> • <span id="cache-status">Vérification...</span>
+            <span id="app-version">v1.3.0</span> • <span id="cache-status">Vérification...</span>
         </span>
+        <button class="theme-toggle-btn" onclick="toggleTheme()" id="theme-btn">Thème : Auto 🌓</button>
     </div>
 
-    <!-- ÉTAPE 1 : COULEUR & VISUEL -->
     <div id="step-1" class="step active">
         <h2>1. L'Œil</h2>
         
@@ -263,14 +298,12 @@
         </div>
     </div>
 
-    <!-- ÉTAPE 2 : LE NEZ -->
     <div id="step-2" class="step">
         <h2>2. Le Nez (Arômes)</h2>
-        <p style="font-size: 0.9em; color: var(--text-muted);">Sélectionnez les marqueurs perçus au 1er et 2ème nez.</p>
+        <p style="font-size: 0.9em; color: var(--text-muted); margin-top: -5px;">Sélectionnez les marqueurs perçus au 1er et 2ème nez.</p>
         <div id="aromas-container"></div>
     </div>
 
-    <!-- ÉTAPE 3 : LA BOUCHE -->
     <div id="step-3" class="step">
         <h2>3. La Bouche</h2>
         
@@ -300,14 +333,12 @@
         </div>
     </div>
 
-    <!-- ÉTAPE 4 : VERDICT -->
     <div id="step-4" class="step">
         <h2>Le Verdict</h2>
         <div id="results-container"></div>
     </div>
 </div>
 
-<!-- NAVIGATION -->
 <div class="nav-bar" id="nav-bar">
     <div class="nav-inner">
         <button class="btn-nav btn-outline" id="btn-prev" onclick="changeStep(-1)" style="display: none;">Précédent</button>
@@ -316,10 +347,64 @@
 </div>
 
 <script>
-    // --- GESTION DU STATUT DU CACHE ET DE LA VERSION ---
-    const APP_VERSION = "v1.2.0";
-    document.getElementById('app-version').innerText = APP_VERSION;
+    // --- GESTION DU THÈME ---
+    function initTheme() {
+        const savedTheme = localStorage.getItem('sherlock-theme');
+        const html = document.documentElement;
+        const btn = document.getElementById('theme-btn');
+        
+        if (savedTheme) {
+            html.setAttribute('data-theme', savedTheme);
+            btn.innerText = savedTheme === 'dark' ? 'Thème : Sombre 🌙' : 'Thème : Clair ☀️';
+        }
+        updateMetaThemeColor();
+    }
 
+    function toggleTheme() {
+        const html = document.documentElement;
+        const btn = document.getElementById('theme-btn');
+        let current = html.getAttribute('data-theme');
+        let nextTheme, btnText;
+
+        if (!current) {
+            nextTheme = 'dark';
+            btnText = 'Thème : Sombre 🌙';
+        } else if (current === 'dark') {
+            nextTheme = 'light';
+            btnText = 'Thème : Clair ☀️';
+        } else {
+            nextTheme = ''; 
+            btnText = 'Thème : Auto 🌓';
+        }
+
+        if (nextTheme) {
+            html.setAttribute('data-theme', nextTheme);
+            localStorage.setItem('sherlock-theme', nextTheme);
+        } else {
+            html.removeAttribute('data-theme');
+            localStorage.removeItem('sherlock-theme');
+        }
+        btn.innerText = btnText;
+        updateMetaThemeColor();
+    }
+
+    function updateMetaThemeColor() {
+        const metaTheme = document.getElementById('meta-theme-color');
+        const html = document.documentElement;
+        const currentTheme = html.getAttribute('data-theme');
+        
+        if (currentTheme === 'dark' || (!currentTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            metaTheme.setAttribute('content', '#121212');
+        } else {
+            metaTheme.setAttribute('content', '#fcfbf9');
+        }
+    }
+
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', updateMetaThemeColor);
+    initTheme();
+
+    // --- GESTION DU CACHE ET PWA ---
+    const APP_VERSION = "v1.3.0";
     function setCacheStatus(text, state) {
         const label = document.getElementById('cache-status');
         const dot = document.getElementById('status-dot');
@@ -327,11 +412,9 @@
         if (dot) dot.className = `status-dot ${state}`;
     }
 
-    // Gestion du mode réseau (En ligne / Hors-ligne)
     window.addEventListener('online', () => setCacheStatus('En ligne (À jour)', 'online'));
-    window.addEventListener('offline', () => setCacheStatus('Hors-ligne (Cache actif)', 'offline'));
+    window.addEventListener('offline', () => setCacheStatus('Hors-ligne', 'offline'));
 
-    // Inspection du Service Worker
     if ('serviceWorker' in navigator) {
         navigator.serviceWorker.getRegistrations().then(registrations => {
             if (registrations.length === 0) {
@@ -342,28 +425,25 @@
                 registration.update();
                 registration.addEventListener('updatefound', () => {
                     const worker = registration.installing;
-                    setCacheStatus('Téléchargement màj...', 'updating');
+                    setCacheStatus('Téléchargement...', 'updating');
                     worker.addEventListener('statechange', () => {
                         if (worker.state === 'installed') {
                             if (navigator.serviceWorker.controller) {
-                                setCacheStatus('Mise à jour prête ! Purge...', 'updating');
                                 caches.keys().then(keys => Promise.all(keys.map(k => caches.delete(k))))
                                     .then(() => window.location.reload(true));
                             } else {
-                                setCacheStatus('À jour (PWA prête)', 'online');
+                                setCacheStatus('À jour (PWA)', 'online');
                             }
                         }
                     });
                 });
             });
-        }).catch(() => {
-            setCacheStatus(navigator.onLine ? 'En ligne' : 'Hors-ligne', navigator.onLine ? 'online' : 'offline');
-        });
+        }).catch(() => setCacheStatus('En ligne', 'online'));
     } else {
-        setCacheStatus(navigator.onLine ? 'En ligne' : 'Hors-ligne', navigator.onLine ? 'online' : 'offline');
+        setCacheStatus('En ligne', 'online');
     }
 
-    // --- BASE DE DONNÉES ---
+    // --- BASE DE DONNÉES EXPERTE ---
     const aromasLibrary = {
         blanc: [
             { cat: "Fruité", tags: ["Citron", "Pamplemousse", "Pomme verte", "Poire", "Coing", "Pêche", "Abricot", "Ananas", "Litchi"] },
