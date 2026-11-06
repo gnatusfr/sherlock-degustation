@@ -267,7 +267,7 @@
     <div class="status-badge">
         <span class="status-pill">
             <span class="status-dot" id="status-dot"></span>
-            <span id="app-version">v1.5.0</span> • <span id="cache-status">Vérification...</span>
+            <span id="app-version">v1.6.0</span> • <span id="cache-status">Vérification...</span>
         </span>
         <button class="theme-toggle-btn" onclick="toggleTheme()" id="theme-btn">Thème : Auto 🌓</button>
     </div>
@@ -401,7 +401,7 @@
     initTheme();
 
     // --- GESTION DU CACHE ET PWA (SERVICE WORKER) ---
-    const APP_VERSION = "v1.5.0";
+    const APP_VERSION = "v1.6.0";
     function setCacheStatus(text, state) {
         const label = document.getElementById('cache-status');
         const dot = document.getElementById('status-dot');
@@ -436,7 +436,7 @@
     // --- BASE DE DONNÉES EXPERTE ---
     const aromasLibrary = {
         blanc: [
-            { cat: "Fruité", tags: ["Citron", "Pamplemousse", "Pomme verte", "Poire", "Coing", "Pêche", "Abricot", "Ananas", "Litchi"] },
+            { cat: "Fruité", tags: ["Citron", "Pamplemousse", "Pomme verte", "Poire", "Coing", "Pêche", "Abricot", "Ananas", "Fruit de la passion", "Litchi"] },
             { cat: "Floral", tags: ["Acacia", "Chèvrefeuille", "Aubépine", "Rose", "Fleurs blanches", "Tilleul", "Violette (Condrieu)"] },
             { cat: "Végétal / Minéral", tags: ["Buis / Asperge", "Pierre à fusil", "Pétrole / Hydrocarbure", "Craie / Iode", "Fougère"] },
             { cat: "Élevage & Évolution", tags: ["Beurre / Brioche", "Noisette grillée", "Vanille", "Cire d'abeille", "Miel", "Laine mouillée", "Noix / Curry", "Amande amère"] }
@@ -451,6 +451,7 @@
 
     const database = [
         // BLANCS MONOCÉPAGES
+        { name: "Gros Manseng", color: "blanc", acidity: "haute", body: "doux", markers: ["Fruit de la passion", "Abricot", "Coing", "Miel", "Pêche"], desc: "Typique du Sud-Ouest (Côtes de Gascogne, Jurançon sec ou moelleux). Une acidité vive et structurée combinée à une explosion de fruits exotiques et de fruits de la passion." },
         { name: "Chenin Blanc (Évolué)", color: "blanc", acidity: "haute", body: "sec", markers: ["Coing", "Pomme verte", "Cire d'abeille", "Laine mouillée", "Miel", "Craie / Iode"], desc: "Cire d'abeille et laine humide associées à une forte acidité signent un grand Chenin de Loire (Savennières, Vouvray)." },
         { name: "Sémillon (Évolué)", color: "blanc", acidity: "basse", body: "gras", markers: ["Cire d'abeille", "Miel", "Abricot", "Noisette grillée", "Beurre / Brioche"], desc: "Note de cire avec acidité basse et matière grasse : typique du Sémillon évolué." },
         { name: "Riesling", color: "blanc", acidity: "haute", body: "sec", markers: ["Citron", "Pamplemousse", "Pétrole / Hydrocarbure", "Fleurs blanches", "Pierre à fusil"], desc: "Tension vivace et note de pétrole (TDN) après quelques années de garde (Alsace, Allemagne)." },
@@ -615,7 +616,8 @@
                 "Goudron / Bitume": "Nebbiolo",
                 "Feuille de thé": "Sangiovese",
                 "Origan / Herbes séchées": "Sangiovese",
-                "Fraise séchée": "Tempranillo"
+                "Fraise séchée": "Tempranillo",
+                "Fruit de la passion": "Gros Manseng"
             };
 
             state.aromas.forEach(tag => {
