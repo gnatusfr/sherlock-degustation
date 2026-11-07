@@ -66,19 +66,20 @@
         .container { width: 100%; max-width: 800px; margin: 0 auto; padding: 20px 4vw 120px 4vw; }
         h1 { text-align: center; color: var(--primary); font-size: clamp(1.4rem, 4vw, 1.8rem); margin: 0 0 0.5rem 0; letter-spacing: -0.5px; }
         
-        .status-badge { text-align: center; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 1.5rem; display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; }
-        .status-pill { display: inline-flex; align-items: center; gap: 6px; background: var(--tag-bg); border: 1px solid var(--border); padding: 4px 12px; border-radius: 20px; font-weight: 600; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 0.5px; }
+        .status-badge { text-align: center; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 1.2rem; display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; }
+        .status-pill { display: inline-flex; align-items: center; gap: 6px; background: var(--tag-bg); border: 1px solid var(--border); padding: 4px 12px; border-radius: 20px; font-weight: 600; text-transform: uppercase; font-size: 0.7rem; }
         .status-dot { width: 6px; height: 6px; border-radius: 50%; background-color: #888; }
         .status-dot.online { background-color: #2e7d32; }
-        .status-dot.updating { background-color: var(--secondary); animation: pulse 1s infinite alternate; }
-        .status-dot.offline { background-color: #c62828; }
-        @keyframes pulse { from { opacity: 0.3; } to { opacity: 1; } }
 
         .theme-toggle-btn { background: var(--card-bg); border: 1px solid var(--border); color: var(--text-color); padding: 4px 12px; border-radius: 12px; font-size: 0.7rem; cursor: pointer; font-weight: 600; text-transform: uppercase; }
 
+        /* SÉLECTEUR DE MODE (Tabs) */
+        .mode-switch { display: flex; background: var(--card-bg); border-radius: 12px; padding: 4px; margin-bottom: 25px; border: 1px solid var(--border); }
+        .mode-btn { flex: 1; text-align: center; padding: 12px; cursor: pointer; font-size: 0.85rem; font-weight: 800; border-radius: 8px; color: var(--text-muted); transition: 0.3s; text-transform: uppercase; letter-spacing: 0.5px;}
+        .mode-btn.active { background: var(--primary); color: var(--btn-text); box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+
         h2 { font-size: clamp(1.1rem, 3vw, 1.3rem); color: var(--secondary); margin-bottom: 15px; border-bottom: 2px solid var(--primary-light); padding-bottom: 8px; text-transform: uppercase; letter-spacing: 1px;}
         h3 { font-size: 0.8rem; margin: 25px 0 5px 0; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1.5px; font-weight: 700;}
-        
         .tasting-tip { font-size: 0.75rem; color: var(--text-muted); font-style: italic; margin-top: 0; margin-bottom: 15px; line-height: 1.3; }
 
         .step { display: none; animation: fadeIn 0.3s ease-out; }
@@ -88,24 +89,14 @@
         .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
         .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr) !important; gap: 8px; margin-bottom: 15px; }
 
-        .btn-radio {
-            background: var(--card-bg); border: 2px solid var(--border); color: var(--text-color);
-            border-radius: 8px; font-weight: 600; text-align: center; cursor: pointer;
-            transition: all 0.2s ease; display: flex; align-items: center; justify-content: center; line-height: 1.2;
-        }
-        
+        .btn-radio { background: var(--card-bg); border: 2px solid var(--border); color: var(--text-color); border-radius: 8px; font-weight: 600; text-align: center; cursor: pointer; transition: all 0.2s ease; display: flex; align-items: center; justify-content: center; line-height: 1.2; }
         .grid-2 .btn-radio { padding: 14px; font-size: 0.95rem; min-height: 56px; }
         .grid-3 .btn-radio { padding: 12px 4px; font-size: clamp(0.75rem, 2.5vw, 0.85rem); min-height: 54px; }
-
         .btn-radio:active { transform: scale(0.97); }
         .btn-radio.selected { border-color: var(--primary); background: var(--primary-light); color: var(--primary); box-shadow: 0 4px 12px rgba(0,0,0,0.05); border-width: 2px;}
 
         .tags-container { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
-        .tag {
-            background: var(--tag-bg); border: 1px solid var(--border); color: var(--text-color);
-            padding: 8px 14px; border-radius: 20px; font-size: 0.85rem; font-weight: 500;
-            cursor: pointer; transition: all 0.2s ease; user-select: none;
-        }
+        .tag { background: var(--tag-bg); border: 1px solid var(--border); color: var(--text-color); padding: 8px 14px; border-radius: 20px; font-size: 0.85rem; font-weight: 500; cursor: pointer; transition: all 0.2s ease; user-select: none; }
         .tag.active { background: var(--primary); color: var(--btn-text); border-color: var(--primary); }
 
         .nav-bar { position: fixed; bottom: 0; left: 0; right: 0; background: var(--card-bg); padding: 12px 4vw; box-shadow: 0 -4px 20px rgba(0,0,0,0.08); display: flex; justify-content: center; z-index: 1000; border-top: 1px solid var(--border); }
@@ -123,112 +114,160 @@
         .match-desc { font-size: 0.95rem; margin-bottom: 15px; line-height: 1.6; }
         .match-markers { font-size: 0.8rem; color: var(--text-muted); padding: 10px; border-top: 1px dashed var(--border); margin-top: 10px; }
         .marker-highlight { color: var(--primary); font-weight: 700; }
+
+        /* GRIMOIRE / ENCYCLOPÉDIE SPECIFICS */
+        .search-bar { width: 100%; padding: 14px 20px; font-size: 1rem; border: 2px solid var(--border); border-radius: 30px; background: var(--card-bg); color: var(--text-color); margin-bottom: 20px; outline: none; transition: border-color 0.3s; }
+        .search-bar:focus { border-color: var(--primary); }
+        
+        .encyclo-list { display: flex; flex-direction: column; gap: 10px; }
+        .encyclo-item { background: var(--card-bg); border: 1px solid var(--border); padding: 15px 20px; border-radius: 12px; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; display: flex; justify-content: space-between; align-items: center; }
+        .encyclo-item:active { transform: scale(0.98); }
+        .encyclo-item-title { font-weight: 800; color: var(--primary); font-size: 1.1rem; }
+        .encyclo-item-region { font-size: 0.8rem; color: var(--text-muted); font-weight: 600; text-transform: uppercase; }
+        
+        /* FICHE DÉTAILLÉE */
+        .fiche-mw { background: var(--card-bg); border: 2px solid var(--secondary); border-radius: 16px; padding: 25px 20px; margin-top: 10px; animation: fadeIn 0.3s ease-out; }
+        .fiche-header { text-align: center; margin-bottom: 20px; border-bottom: 1px solid var(--border); padding-bottom: 15px; }
+        .fiche-title { font-size: 1.6rem; color: var(--primary); font-weight: 900; margin: 0 0 5px 0; }
+        .fiche-region { font-size: 0.9rem; color: var(--secondary); text-transform: uppercase; font-weight: 700; letter-spacing: 1px; }
+        
+        .fiche-section { margin-bottom: 20px; }
+        .fiche-section h4 { font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; border-left: 4px solid var(--primary-light); padding-left: 8px; margin-bottom: 12px; }
+        
+        .gauge-row { display: flex; align-items: center; margin-bottom: 8px; }
+        .gauge-label { width: 35%; font-size: 0.9rem; font-weight: 600; }
+        .gauge-bars { display: flex; gap: 4px; width: 40%; margin-right: 10px;}
+        .gauge-bar { height: 8px; flex: 1; background: var(--tag-bg); border-radius: 4px; }
+        .gauge-bar.filled { background: var(--primary); }
+        .gauge-value { width: 25%; font-size: 0.8rem; color: var(--text-muted); font-weight: 600; text-align: right; }
+
+        .btn-retour-fiche { width: 100%; background: transparent; border: 2px solid var(--primary); color: var(--primary); padding: 12px; border-radius: 10px; font-weight: 700; font-size: 1rem; cursor: pointer; text-transform: uppercase; margin-bottom: 20px; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>🍷 SHERLOCK - Master of Wine</h1>
+    <h1>🍷 Sherlock Œnologie</h1>
     
     <div class="status-badge">
         <span class="status-pill">
-            <span class="status-dot" id="status-dot"></span>
-            <span id="app-version">v2.2.0 MW Edition</span> • <span id="cache-status">Vérif.</span>
+            <span class="status-dot online" id="status-dot"></span>
+            <span id="app-version">v2.3.0 MW Edition</span>
         </span>
         <button class="theme-toggle-btn" onclick="toggleTheme()" id="theme-btn">Auto 🌓</button>
     </div>
 
-    <!-- ÉTAPE 1 : VISUEL -->
-    <div id="step-1" class="step active">
-        <h2>1. Analyse Visuelle</h2>
+    <!-- SÉLECTEUR DE MODE -->
+    <div class="mode-switch">
+        <div class="mode-btn active" id="btn-mode-blind" onclick="switchMode('blind')">🔍 Enquête</div>
+        <div class="mode-btn" id="btn-mode-encyclo" onclick="switchMode('encyclo')">📖 Grimoire</div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- MODE 1 : DÉGUSTATION À L'AVEUGLE (ENQUÊTE) -->
+    <!-- ========================================== -->
+    <div id="mode-blind">
+        <div id="step-1" class="step active">
+            <h2>1. Analyse Visuelle</h2>
+            <h3>Couleur Principale</h3>
+            <div class="grid-2" id="couleur-grid">
+                <div class="btn-radio" onclick="selectColor('blanc')">Blanc</div>
+                <div class="btn-radio" onclick="selectColor('rouge')">Rouge</div>
+            </div>
+            <div id="teinte-rouge-only" style="display:none;">
+                <h3>Teinte (Âge / Évolution)</h3>
+                <div class="grid-3" id="teinte_rouge-grid">
+                    <div class="btn-radio" onclick="selectRadio('teinte_rouge', 'pourpre')">Pourpre<br>(Très jeune)</div>
+                    <div class="btn-radio" onclick="selectRadio('teinte_rouge', 'rubis')">Rubis<br>(Standard)</div>
+                    <div class="btn-radio" onclick="selectRadio('teinte_rouge', 'grenat')">Grenat / Tuilé<br>(Évolué)</div>
+                </div>
+            </div>
+            <div id="teinte-blanc-only" style="display:none;">
+                <h3>Teinte (Âge / Élevage)</h3>
+                <div class="grid-3" id="teinte_blanc-grid">
+                    <div class="btn-radio" onclick="selectRadio('teinte_blanc', 'citron')">Citron / Vert<br>(Jeune/Frais)</div>
+                    <div class="btn-radio" onclick="selectRadio('teinte_blanc', 'or')">Or<br>(Élevage/Mûr)</div>
+                    <div class="btn-radio" onclick="selectRadio('teinte_blanc', 'ambre')">Ambré<br>(Oxydatif/Vieux)</div>
+                </div>
+            </div>
+            <h3>Intensité de la robe (Extraction)</h3>
+            <div class="grid-3" id="opacite-grid">
+                <div class="btn-radio" onclick="selectRadio('opacite', 'pale')">Pâle</div>
+                <div class="btn-radio" onclick="selectRadio('opacite', 'moyenne')">Moyenne</div>
+                <div class="btn-radio" onclick="selectRadio('opacite', 'profonde')">Profonde</div>
+            </div>
+        </div>
+
+        <div id="step-2" class="step">
+            <h2>2. Profil Aromatique</h2>
+            <p class="tasting-tip">💡 Isolez les arômes primaires (fruit), secondaires (élevage) et tertiaires (évolution).</p>
+            <div id="aromas-container"></div>
+        </div>
+
+        <div id="step-3" class="step">
+            <h2>3. Structure (Échelle MW)</h2>
+            <h3>Acidité</h3>
+            <p class="tasting-tip">💡 Évaluez l'intensité de la salivation sur les côtés de la langue.</p>
+            <div class="grid-3" id="acidite-grid">
+                <div class="btn-radio" onclick="selectRadio('acidite', 1)">1 - Faible / Molle</div>
+                <div class="btn-radio" onclick="selectRadio('acidite', 2)">2 - Moyenne</div>
+                <div class="btn-radio" onclick="selectRadio('acidite', 3)">3 - Élevée / Tendue</div>
+            </div>
+            <div id="bouche-rouge-only" style="display:none;">
+                <h3>Tannins</h3>
+                <p class="tasting-tip">💡 Concentrez-vous sur l'assèchement sur les gencives.</p>
+                <div class="grid-3" id="tannins-grid">
+                    <div class="btn-radio" onclick="selectRadio('tannins', 1)">1 - Faibles / Fondus</div>
+                    <div class="btn-radio" onclick="selectRadio('tannins', 2)">2 - Moyens</div>
+                    <div class="btn-radio" onclick="selectRadio('tannins', 3)">3 - Élevés / Astringents</div>
+                </div>
+            </div>
+            <h3>Alcool</h3>
+            <p class="tasting-tip">💡 Sentez le niveau de chaleur au fond de la gorge.</p>
+            <div class="grid-3" id="alcool-grid">
+                <div class="btn-radio" onclick="selectRadio('alcool', 1)">1 - Faible (< 12.5°)</div>
+                <div class="btn-radio" onclick="selectRadio('alcool', 2)">2 - Moyen (12.5° - 13.5°)</div>
+                <div class="btn-radio" onclick="selectRadio('alcool', 3)">3 - Élevé (> 13.5°)</div>
+            </div>
+            <div id="bouche-blanc-only" style="display:none;">
+                <h3>Sucre Résiduel</h3>
+                <div class="grid-3" id="sucre-grid">
+                    <div class="btn-radio" onclick="selectRadio('sucre', 'sec')">Sec (< 4g/l)</div>
+                    <div class="btn-radio" onclick="selectRadio('sucre', 'demi')">Demi-Sec (Off-dry)</div>
+                    <div class="btn-radio" onclick="selectRadio('sucre', 'doux')">Doux / Liquoreux</div>
+                </div>
+            </div>
+        </div>
+
+        <div id="step-4" class="step">
+            <h2>Conclusion Systématique</h2>
+            <div id="results-container"></div>
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- MODE 2 : GRIMOIRE (ENCYCLOPÉDIE DES VINS)  -->
+    <!-- ========================================== -->
+    <div id="mode-encyclo" style="display:none;">
         
-        <h3>Couleur Principale</h3>
-        <div class="grid-2" id="couleur-grid">
-            <div class="btn-radio" onclick="selectColor('blanc')">Blanc</div>
-            <div class="btn-radio" onclick="selectColor('rouge')">Rouge</div>
-        </div>
-
-        <div id="teinte-rouge-only" style="display:none;">
-            <h3>Teinte (Âge / Évolution)</h3>
-            <div class="grid-3" id="teinte_rouge-grid">
-                <div class="btn-radio" onclick="selectRadio('teinte_rouge', 'pourpre')">Pourpre<br>(Très jeune)</div>
-                <div class="btn-radio" onclick="selectRadio('teinte_rouge', 'rubis')">Rubis<br>(Standard)</div>
-                <div class="btn-radio" onclick="selectRadio('teinte_rouge', 'grenat')">Grenat / Tuilé<br>(Évolué)</div>
+        <div id="encyclo-list-view">
+            <input type="text" id="search-bar" class="search-bar" placeholder="🔍 Rechercher un cépage, vin ou région..." onkeyup="filterEncyclo()">
+            <div class="encyclo-list" id="encyclo-list-container">
+                <!-- Rempli en JS -->
             </div>
         </div>
 
-        <div id="teinte-blanc-only" style="display:none;">
-            <h3>Teinte (Âge / Élevage)</h3>
-            <div class="grid-3" id="teinte_blanc-grid">
-                <div class="btn-radio" onclick="selectRadio('teinte_blanc', 'citron')">Citron / Vert<br>(Jeune/Frais)</div>
-                <div class="btn-radio" onclick="selectRadio('teinte_blanc', 'or')">Or<br>(Élevage/Mûr)</div>
-                <div class="btn-radio" onclick="selectRadio('teinte_blanc', 'ambre')">Ambré<br>(Oxydatif/Vieux)</div>
-            </div>
-        </div>
-
-        <h3>Intensité de la robe (Extraction)</h3>
-        <div class="grid-3" id="opacite-grid">
-            <div class="btn-radio" onclick="selectRadio('opacite', 'pale')">Pâle</div>
-            <div class="btn-radio" onclick="selectRadio('opacite', 'moyenne')">Moyenne</div>
-            <div class="btn-radio" onclick="selectRadio('opacite', 'profonde')">Profonde</div>
-        </div>
-    </div>
-
-    <!-- ÉTAPE 2 : NEZ EXPERT -->
-    <div id="step-2" class="step">
-        <h2>2. Profil Aromatique</h2>
-        <p class="tasting-tip">💡 Isolez les arômes primaires (fruit), secondaires (élevage) et tertiaires (évolution).</p>
-        <div id="aromas-container"></div>
-    </div>
-
-    <!-- ÉTAPE 3 : STRUCTURE EN BOUCHE (ÉCHELLE RÉDUITE WSET) -->
-    <div id="step-3" class="step">
-        <h2>3. Structure (Échelle MW)</h2>
-        
-        <h3>Acidité</h3>
-        <p class="tasting-tip">💡 Évaluez l'intensité de la salivation sur les côtés de la langue. Une acidité élevée rend le vin fluide et fait saliver longtemps.</p>
-        <div class="grid-3" id="acidite-grid">
-            <div class="btn-radio" onclick="selectRadio('acidite', 1)">1 - Faible / Molle</div>
-            <div class="btn-radio" onclick="selectRadio('acidite', 2)">2 - Moyenne</div>
-            <div class="btn-radio" onclick="selectRadio('acidite', 3)">3 - Élevée / Tendue</div>
-        </div>
-
-        <div id="bouche-rouge-only" style="display:none;">
-            <h3>Tannins</h3>
-            <p class="tasting-tip">💡 Concentrez-vous sur la sensation d'assèchement sur les gencives et à l'intérieur des joues, pas sur l'amertume.</p>
-            <div class="grid-3" id="tannins-grid">
-                <div class="btn-radio" onclick="selectRadio('tannins', 1)">1 - Faibles / Fondus</div>
-                <div class="btn-radio" onclick="selectRadio('tannins', 2)">2 - Moyens</div>
-                <div class="btn-radio" onclick="selectRadio('tannins', 3)">3 - Élevés / Astringents</div>
-            </div>
-        </div>
-
-        <h3>Alcool</h3>
-        <p class="tasting-tip">💡 Sentez le niveau de chaleur au fond de la gorge après avoir avalé ou recraché le vin, ainsi que sa viscosité.</p>
-        <div class="grid-3" id="alcool-grid">
-            <div class="btn-radio" onclick="selectRadio('alcool', 1)">1 - Faible (< 12.5°)</div>
-            <div class="btn-radio" onclick="selectRadio('alcool', 2)">2 - Moyen (12.5° - 13.5°)</div>
-            <div class="btn-radio" onclick="selectRadio('alcool', 3)">3 - Élevé (> 13.5°)</div>
-        </div>
-
-        <div id="bouche-blanc-only" style="display:none;">
-            <h3>Sucre Résiduel</h3>
-            <p class="tasting-tip">💡 Ne confondez pas le fruité (ex: litchi) avec la sensation sucrée physique sur le bout de la langue.</p>
-            <div class="grid-3" id="sucre-grid">
-                <div class="btn-radio" onclick="selectRadio('sucre', 'sec')">Sec (< 4g/l)</div>
-                <div class="btn-radio" onclick="selectRadio('sucre', 'demi')">Demi-Sec (Off-dry)</div>
-                <div class="btn-radio" onclick="selectRadio('sucre', 'doux')">Doux / Liquoreux</div>
+        <div id="encyclo-sheet-view" style="display:none;">
+            <button class="btn-retour-fiche" onclick="closeSheet()">🔙 Retour au Grimoire</button>
+            <div id="sheet-content">
+                <!-- Rempli en JS -->
             </div>
         </div>
     </div>
 
-    <!-- ÉTAPE 4 : CONCLUSION -->
-    <div id="step-4" class="step">
-        <h2>Conclusion Systématique</h2>
-        <div id="results-container"></div>
-    </div>
 </div>
 
+<!-- BARRE DE NAVIGATION FIXE (Uniquement pour le mode Enquête) -->
 <div class="nav-bar" id="nav-bar">
     <div class="nav-inner">
         <button class="btn-nav btn-outline" id="btn-prev" onclick="changeStep(-1)" style="display: none;">Retours</button>
@@ -237,7 +276,7 @@
 </div>
 
 <script>
-    // --- GESTION DU THÈME ET PWA (v2.2.0) ---
+    // --- GESTION DU THÈME ---
     function initTheme() {
         const savedTheme = localStorage.getItem('sherlock-theme-v2');
         const html = document.documentElement; const btn = document.getElementById('theme-btn');
@@ -262,6 +301,7 @@
     window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', updateMetaThemeColor);
     initTheme();
 
+    // --- BASE DE DONNÉES ---
     const aromasLibrary = {
         blanc: [
             { cat: "I. Fruits (Primaires)", tags: ["Citron vert", "Citron / Pamplemousse", "Pomme verte", "Poire", "Pêche / Abricot", "Litchi", "Fruit de la passion", "Ananas / Mangue", "Melon"] },
@@ -277,9 +317,7 @@
         ]
     };
 
-    // BASE DE DONNÉES SIMPLIFIÉE SUR ÉCHELLE DE 3 (1=Faible, 2=Moyen, 3=Élevé)
     const database = [
-        // --- BLANCS (ANCIEN MONDE) ---
         { name: "Chablis (Chardonnay Non-Boisé)", color: "blanc", acidity: [3], alcohol: [1], opacity: "pale", body: "sec", markers: ["Pomme verte", "Citron / Pamplemousse", "Craie / Iode", "Pierre à fusil / Silex", "Fleurs blanches"], region: "Bourgogne (Nord), France - Climat Frais", desc: "La pureté du Chardonnay en climat frais : pas de bois, acidité tranchante, notes de coquille d'huître et agrumes." },
         { name: "Meursault (Chardonnay Boisé)", color: "blanc", acidity: [2], alcohol: [2], opacity: "moyenne", body: "sec", markers: ["Beurre / Brioche (Malo)", "Noisette", "Pêche / Abricot", "Vanille", "Pain grillé / Toast"], region: "Bourgogne (Côte de Beaune) - Climat Tempéré", desc: "La conversion malolactique et le bâtonnage en fût de chêne créent ce profil beurré, brioché et ample en bouche." },
         { name: "Sancerre / Pouilly-Fumé (Sauvignon)", color: "blanc", acidity: [3], alcohol: [1,2], opacity: "pale", body: "sec", markers: ["Citron vert", "Buis / Asperge", "Pierre à fusil / Silex", "Herbe fraîche"], region: "Vallée de la Loire, France - Climat Frais", desc: "Expression minérale et tranchante du Sauvignon. L'arôme de buis (pipi de chat) et la pierre à fusil sont les marqueurs absolus." },
@@ -289,12 +327,8 @@
         { name: "Grüner Veltliner", color: "blanc", acidity: [3], alcohol: [1,2], opacity: "pale", body: "sec", markers: ["Citron vert", "Poivre blanc", "Pomme verte", "Buis / Asperge"], region: "Wachau / Kamptal, Autriche", desc: "Proche du Sauvignon blanc par l'acidité, mais la touche spécifique de Poivre Blanc le démasque instantanément." },
         { name: "Viognier (Condrieu)", color: "blanc", acidity: [1], alcohol: [3], opacity: "moyenne", body: "sec", markers: ["Pêche / Abricot", "Violette (Condrieu)", "Miel", "Fleurs blanches"], region: "Rhône Nord, France - Climat Tempéré", desc: "Texture grasse, acidité faible (souvent molle), dominé par l'abricot sec et l'exubérance florale." },
         { name: "Gros Manseng", color: "blanc", acidity: [3], alcohol: [2], opacity: "moyenne", body: "demi", markers: ["Fruit de la passion", "Ananas / Mangue", "Pêche / Abricot", "Miel"], region: "Sud-Ouest (Gascogne / Jurançon), France", desc: "L'acidité vibrante vient ici équilibrer la richesse en sucres résiduels. Nez explosif et exotique dominé par le fruit de la passion." },
-
-        // --- BLANCS (NOUVEAU MONDE) ---
         { name: "Marlborough Sauvignon Blanc", color: "blanc", acidity: [3], alcohol: [2], opacity: "pale", body: "sec", markers: ["Fruit de la passion", "Buis / Asperge", "Citron vert", "Poivron vert"], region: "Marlborough, Nouvelle-Zélande", desc: "L'explosion des thiols : un nez hyper expressif de fruit de la passion croisé avec l'asperge (pyrazine)." },
         { name: "Napa Valley Chardonnay", color: "blanc", acidity: [1,2], alcohol: [3], opacity: "moyenne", body: "sec", markers: ["Ananas / Mangue", "Vanille", "Beurre / Brioche (Malo)", "Pain grillé / Toast"], region: "Californie, USA - Climat Chaud", desc: "Contrairement à Chablis, le fruit est tropical, l'alcool est élevé, et l'élevage en chêne américain (vanille) est prononcé." },
-
-        // --- ROUGES (ANCIEN MONDE) ---
         { name: "Pinot Noir (Bourgogne)", color: "rouge", acidity: [3], tannins: [1], alcohol: [1,2], opacity: "pale", markers: ["Cerise fraîche", "Framboise", "Pivoine", "Sous-bois / Champignon", "Terre humide"], region: "Bourgogne (Côte de Nuits/Beaune)", desc: "Robe translucide, acidité vibrante, tannins très fins. Les notes de sous-bois signent son évolution." },
         { name: "Bordeaux Rive Gauche (Cabernet Sauvignon)", color: "rouge", acidity: [2,3], tannins: [3], alcohol: [2,3], opacity: "profonde", markers: ["Cassis", "Poivron vert", "Cèdre / Boîte à cigare", "Tabac / Cigare", "Menthol / Eucalyptus"], region: "Médoc / Haut-Médoc, France", desc: "L'ossature du Cabernet : tannins massifs, acidité solide, cassis net et la signature de boîte à cigare/cèdre." },
         { name: "Bordeaux Rive Droite (Merlot)", color: "rouge", acidity: [2], tannins: [2], alcohol: [2,3], opacity: "profonde", markers: ["Cerise fraîche", "Prune / Quetsche", "Cacao / Chocolat", "Truffe", "Sous-bois / Champignon"], region: "Saint-Émilion / Pomerol, France", desc: "Plus rond et charnu que la rive gauche. Le Merlot apporte le fruit noir opulent, le cacao et évolue vers la truffe." },
@@ -304,8 +338,6 @@
         { name: "Tempranillo", color: "rouge", acidity: [2], tannins: [2], alcohol: [2,3], opacity: "profonde", markers: ["Fraise séchée", "Vanille", "Tabac / Cigare", "Cuir", "Prune / Quetsche"], region: "Rioja / Ribera del Duero, Espagne", desc: "L'élevage long en chêne américain (Vanille) sur un fruit séché, avec des tannins polis mais présents." },
         { name: "Gamay (Macération)", color: "rouge", acidity: [3], tannins: [1], alcohol: [1,2], opacity: "pale", markers: ["Fraise", "Framboise", "Banane/Bonbon (Macération)", "Pivoine"], region: "Beaujolais, France", desc: "Gouleyant, tannins quasi inexistants. Les levures et la macération carbonique donnent ce nez amylique typique (bonbon anglais, banane)." },
         { name: "Assemblage GSM (Rhône Sud)", color: "rouge", acidity: [1,2], tannins: [2], alcohol: [3], opacity: "moyenne", markers: ["Garrigue / Thym", "Fraise", "Fruits cuits / Confiture", "Poivre noir", "Cuir"], region: "Châteauneuf-du-Pape / Gigondas, France", desc: "Le Grenache dicte l'alcool élevé (Niveau 3), le fruit rouge cuit et la chaleur. La Syrah épice, le Mourvèdre structure." },
-
-        // --- ROUGES (NOUVEAU MONDE) ---
         { name: "Shiraz (Barossa)", color: "rouge", acidity: [1,2], tannins: [2,3], alcohol: [3], opacity: "profonde", markers: ["Mûre / Myrtille", "Fruits cuits / Confiture", "Cacao / Chocolat", "Menthol / Eucalyptus", "Poivre noir"], region: "Barossa Valley, Australie - Climat Chaud", desc: "La Syrah sous un soleil brûlant : exit le lard froid du Rhône, place à la confiture de mûre, l'eucalyptus et l'alcool imposant." },
         { name: "Malbec (Argentine)", color: "rouge", acidity: [2], tannins: [2], alcohol: [3], opacity: "profonde", markers: ["Mûre / Myrtille", "Violette", "Cacao / Chocolat", "Prune / Quetsche"], region: "Mendoza, Argentine (Altitude)", desc: "Robe violacée presque noire. Beaucoup de fruit noir (mûre/prune) avec une note florale très pure de violette due à l'altitude." },
         { name: "Carmenère (Chili)", color: "rouge", acidity: [2], tannins: [2], alcohol: [2,3], opacity: "profonde", markers: ["Poivron vert", "Mûre / Myrtille", "Café / Espresso", "Cacao / Chocolat"], region: "Vallée Centrale, Chili", desc: "Le poivron vert (pyrazine) est hyper dominant, croisé avec un côté torréfié (café) typique du traitement chilien." },
@@ -313,6 +345,162 @@
         { name: "Pinot Noir (Nouveau Monde)", color: "rouge", acidity: [2,3], tannins: [1,2], alcohol: [3], opacity: "moyenne", markers: ["Cerise fraîche", "Fraise", "Vanille", "Clou de girofle"], region: "Central Otago (NZ) / Californie (USA)", desc: "Plus d'extraction, de couleur, d'alcool et de fruit sucré que la Bourgogne, souvent soutenu par un élevage en fût neuf plus marqué." }
     ];
 
+    // --- LOGIQUE MODE D'AFFICHAGE (ENQUÊTE vs GRIMOIRE) ---
+    function switchMode(mode) {
+        if (mode === 'blind') {
+            document.getElementById('btn-mode-blind').classList.add('active');
+            document.getElementById('btn-mode-encyclo').classList.remove('active');
+            document.getElementById('mode-blind').style.display = 'block';
+            document.getElementById('mode-encyclo').style.display = 'none';
+            document.getElementById('nav-bar').style.display = 'flex';
+        } else {
+            document.getElementById('btn-mode-encyclo').classList.add('active');
+            document.getElementById('btn-mode-blind').classList.remove('active');
+            document.getElementById('mode-encyclo').style.display = 'block';
+            document.getElementById('mode-blind').style.display = 'none';
+            document.getElementById('nav-bar').style.display = 'none'; // Cacher la nav d'enquête
+            
+            // Si le grimoire est ouvert pour la première fois, on charge la liste
+            if(document.getElementById('encyclo-list-container').innerHTML.trim() === '') {
+                renderEncycloList(database);
+            }
+        }
+    }
+
+    // --- LOGIQUE MODE GRIMOIRE (ENCYCLOPÉDIE) ---
+    function renderEncycloList(dataArray) {
+        const container = document.getElementById('encyclo-list-container');
+        container.innerHTML = '';
+        
+        // Tri alphabétique
+        let sortedData = [...dataArray].sort((a, b) => a.name.localeCompare(b.name));
+        
+        sortedData.forEach((wine, index) => {
+            const item = document.createElement('div');
+            item.className = 'encyclo-item';
+            // icône selon couleur
+            const icon = wine.color === 'rouge' ? '🍷' : '🥂';
+            item.innerHTML = `
+                <div>
+                    <div class="encyclo-item-title">${icon} ${wine.name}</div>
+                    <div class="encyclo-item-region">${wine.region}</div>
+                </div>
+            `;
+            // Stocker l'index original ou passer l'objet complet
+            item.onclick = () => openSheet(wine);
+            container.appendChild(item);
+        });
+    }
+
+    function filterEncyclo() {
+        const query = document.getElementById('search-bar').value.toLowerCase();
+        const filtered = database.filter(wine => 
+            wine.name.toLowerCase().includes(query) || 
+            wine.region.toLowerCase().includes(query) ||
+            wine.markers.some(m => m.toLowerCase().includes(query))
+        );
+        renderEncycloList(filtered);
+    }
+
+    function getTextAndVal(arr, labels) {
+        // Détermine la valeur max pour la jauge visuelle (1, 2 ou 3)
+        const maxVal = Math.max(...arr);
+        // Détermine le texte
+        let text = "";
+        if (arr.length === 1) text = labels[arr[0]];
+        else text = labels[arr[0]] + " à " + labels[arr[arr.length - 1]];
+        return { val: maxVal, text: text };
+    }
+
+    function openSheet(wine) {
+        document.getElementById('encyclo-list-view').style.display = 'none';
+        document.getElementById('encyclo-sheet-view').style.display = 'block';
+        
+        const container = document.getElementById('sheet-content');
+        
+        // Formattage des échelles de 3
+        const scaleLabels = { 1: "Faible", 2: "Moyen", 3: "Élevé" };
+        const ac = getTextAndVal(wine.acidity, scaleLabels);
+        const al = getTextAndVal(wine.alcohol, scaleLabels);
+        let taHtml = '';
+        
+        if (wine.color === 'rouge') {
+            const ta = getTextAndVal(wine.tannins, scaleLabels);
+            taHtml = `
+                <div class="gauge-row">
+                    <div class="gauge-label">Tannins</div>
+                    <div class="gauge-bars">
+                        <div class="gauge-bar ${ta.val >= 1 ? 'filled' : ''}"></div>
+                        <div class="gauge-bar ${ta.val >= 2 ? 'filled' : ''}"></div>
+                        <div class="gauge-bar ${ta.val >= 3 ? 'filled' : ''}"></div>
+                    </div>
+                    <div class="gauge-value">${ta.text}</div>
+                </div>`;
+        }
+
+        // Formattage visuel (Couleur/Opacité/Sucre)
+        const colorName = wine.color === 'rouge' ? 'Rouge' : 'Blanc';
+        const opacText = wine.opacity.charAt(0).toUpperCase() + wine.opacity.slice(1);
+        const sucreText = wine.color === 'blanc' ? (wine.body === 'sec' ? 'Sec' : (wine.body === 'demi' ? 'Demi-Sec' : 'Doux')) : 'Sec';
+
+        container.innerHTML = `
+            <div class="fiche-mw">
+                <div class="fiche-header">
+                    <h2 class="fiche-title">${wine.name}</h2>
+                    <div class="fiche-region">🌍 ${wine.region}</div>
+                </div>
+                
+                <div class="fiche-section">
+                    <h4>👁️ Profil Visuel</h4>
+                    <p style="font-size:0.9rem; font-weight:600; margin:0;">${colorName} • Robe ${opacText} ${wine.color === 'blanc' ? '• ' + sucreText : ''}</p>
+                </div>
+
+                <div class="fiche-section">
+                    <h4>👃 Profil Aromatique (Marqueurs)</h4>
+                    <div class="tags-container" style="margin-bottom:0;">
+                        ${wine.markers.map(m => `<span class="tag" style="background:var(--primary-light); border-color:var(--primary);">${m}</span>`).join('')}
+                    </div>
+                </div>
+
+                <div class="fiche-section">
+                    <h4>👄 Structure en Bouche</h4>
+                    <div class="gauge-row">
+                        <div class="gauge-label">Acidité</div>
+                        <div class="gauge-bars">
+                            <div class="gauge-bar ${ac.val >= 1 ? 'filled' : ''}"></div>
+                            <div class="gauge-bar ${ac.val >= 2 ? 'filled' : ''}"></div>
+                            <div class="gauge-bar ${ac.val >= 3 ? 'filled' : ''}"></div>
+                        </div>
+                        <div class="gauge-value">${ac.text}</div>
+                    </div>
+                    ${taHtml}
+                    <div class="gauge-row">
+                        <div class="gauge-label">Alcool</div>
+                        <div class="gauge-bars">
+                            <div class="gauge-bar ${al.val >= 1 ? 'filled' : ''}"></div>
+                            <div class="gauge-bar ${al.val >= 2 ? 'filled' : ''}"></div>
+                            <div class="gauge-bar ${al.val >= 3 ? 'filled' : ''}"></div>
+                        </div>
+                        <div class="gauge-value">${al.text}</div>
+                    </div>
+                </div>
+
+                <div class="fiche-section">
+                    <h4>📝 Analyse Master of Wine</h4>
+                    <p style="font-size:0.95rem; line-height:1.5; margin:0; font-style:italic;">"${wine.desc}"</p>
+                </div>
+            </div>
+        `;
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function closeSheet() {
+        document.getElementById('encyclo-sheet-view').style.display = 'none';
+        document.getElementById('encyclo-list-view').style.display = 'block';
+    }
+
+
+    // --- LOGIQUE MODE ENQUÊTE (DÉGUSTATION) ---
     let currentStep = 1;
     let state = { couleur: null, opacite: null, teinte_rouge: null, teinte_blanc: null, aromas: new Set(), acidite: null, tannins: null, alcool: null, sucre: null };
 
@@ -387,15 +575,13 @@
 
     function calculateVerdict() {
         let results = [];
-        const has = (tag) => state.aromas.has(tag);
         
         database.forEach(cepage => {
             if (cepage.color !== state.couleur) return;
             let score = 0; let matchedMarkers = [];
 
-            // 1. SCORING STRUCTUREL (Échelle de 3)
             if (cepage.acidity.includes(state.acidite)) score += 4;
-            else if (Math.abs(cepage.acidity[0] - state.acidite) === 2) score -= 3; // Pénalité sévère si écart maximal (ex: prévu 1, perçu 3)
+            else if (Math.abs(cepage.acidity[0] - state.acidite) === 2) score -= 3;
             
             if (state.couleur === 'rouge') {
                 if (cepage.tannins.includes(state.tannins)) score += 4;
@@ -407,12 +593,10 @@
             if (cepage.alcohol.includes(state.alcool)) score += 2;
             else if (Math.abs(cepage.alcohol[0] - state.alcool) === 2) score -= 2;
 
-            // 2. SCORING AROMATIQUE
             state.aromas.forEach(tag => {
                 if (cepage.markers.includes(tag)) { score += 2; matchedMarkers.push(tag); }
             });
 
-            // 3. KILLER COMBOS
             const killerCombos = {
                 "Pétrole / Hydrocarbure": "Riesling (Sec)",
                 "Cire d'abeille": "Chenin Blanc (Sec / Évolué)",
@@ -443,7 +627,7 @@
 
     function renderResults(results) {
         const container = document.getElementById('results-container'); container.innerHTML = '';
-        if (results.length === 0) { container.innerHTML = '<p>Ce vin défie l\'analyse structurelle. Soit les marqueurs s\'opposent, soit il s\'agit d\'un défaut majeur de la bouteille (bouchonné, madérisé).</p>'; return; }
+        if (results.length === 0) { container.innerHTML = '<p>Ce vin défie l\'analyse structurelle. Soit les marqueurs s\'opposent, soit il s\'agit d\'un défaut majeur de la bouteille.</p>'; return; }
         
         results.slice(0, 3).forEach((res, index) => {
             const card = document.createElement('div'); card.className = 'match-card';
