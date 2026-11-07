@@ -77,7 +77,9 @@
         .theme-toggle-btn { background: var(--card-bg); border: 1px solid var(--border); color: var(--text-color); padding: 4px 12px; border-radius: 12px; font-size: 0.7rem; cursor: pointer; font-weight: 600; text-transform: uppercase; }
 
         h2 { font-size: clamp(1.1rem, 3vw, 1.3rem); color: var(--secondary); margin-bottom: 15px; border-bottom: 2px solid var(--primary-light); padding-bottom: 8px; text-transform: uppercase; letter-spacing: 1px;}
-        h3 { font-size: 0.8rem; margin: 25px 0 10px 0; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1.5px; font-weight: 700;}
+        h3 { font-size: 0.8rem; margin: 25px 0 5px 0; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1.5px; font-weight: 700;}
+        
+        .tasting-tip { font-size: 0.75rem; color: var(--text-muted); font-style: italic; margin-top: 0; margin-bottom: 15px; line-height: 1.3; }
 
         .step { display: none; animation: fadeIn 0.3s ease-out; }
         .step.active { display: block; }
@@ -85,21 +87,18 @@
 
         .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
         .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr) !important; gap: 8px; margin-bottom: 15px; }
-        .grid-5 { display: grid; grid-template-columns: repeat(5, 1fr) !important; gap: 4px; margin-bottom: 15px; }
 
         .btn-radio {
             background: var(--card-bg); border: 2px solid var(--border); color: var(--text-color);
             border-radius: 8px; font-weight: 600; text-align: center; cursor: pointer;
-            transition: all 0.2s ease; display: flex; align-items: center; justify-content: center; line-height: 1.1;
+            transition: all 0.2s ease; display: flex; align-items: center; justify-content: center; line-height: 1.2;
         }
         
         .grid-2 .btn-radio { padding: 14px; font-size: 0.95rem; min-height: 56px; }
-        .grid-3 .btn-radio { padding: 12px 4px; font-size: clamp(0.7rem, 2.5vw, 0.85rem); min-height: 54px; }
-        .grid-5 .btn-radio { padding: 8px 2px; font-size: clamp(0.55rem, 2vw, 0.7rem); min-height: 48px; border-width: 1px; }
+        .grid-3 .btn-radio { padding: 12px 4px; font-size: clamp(0.75rem, 2.5vw, 0.85rem); min-height: 54px; }
 
         .btn-radio:active { transform: scale(0.97); }
-        .btn-radio.selected { border-color: var(--primary); background: var(--primary-light); color: var(--primary); box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
-        .grid-5 .btn-radio.selected { border-width: 2px; }
+        .btn-radio.selected { border-color: var(--primary); background: var(--primary-light); color: var(--primary); box-shadow: 0 4px 12px rgba(0,0,0,0.05); border-width: 2px;}
 
         .tags-container { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
         .tag {
@@ -134,14 +133,14 @@
     <div class="status-badge">
         <span class="status-pill">
             <span class="status-dot" id="status-dot"></span>
-            <span id="app-version">v2.1.0 MW Edition</span> • <span id="cache-status">Vérif.</span>
+            <span id="app-version">v2.2.0 MW Edition</span> • <span id="cache-status">Vérif.</span>
         </span>
         <button class="theme-toggle-btn" onclick="toggleTheme()" id="theme-btn">Auto 🌓</button>
     </div>
 
-    <!-- ÉTAPE 1 : VISUEL (WSET) -->
+    <!-- ÉTAPE 1 : VISUEL -->
     <div id="step-1" class="step active">
-        <h2>1. Analyse Visuelle (WSET)</h2>
+        <h2>1. Analyse Visuelle</h2>
         
         <h3>Couleur Principale</h3>
         <div class="grid-2" id="couleur-grid">
@@ -178,45 +177,43 @@
     <!-- ÉTAPE 2 : NEZ EXPERT -->
     <div id="step-2" class="step">
         <h2>2. Profil Aromatique</h2>
-        <p style="font-size: 0.85em; color: var(--text-muted); margin-top: -5px; margin-bottom: 20px;">Isolez les arômes primaires (fruit), secondaires (élevage) et tertiaires (évolution).</p>
+        <p class="tasting-tip">💡 Isolez les arômes primaires (fruit), secondaires (élevage) et tertiaires (évolution).</p>
         <div id="aromas-container"></div>
     </div>
 
-    <!-- ÉTAPE 3 : STRUCTURE EN BOUCHE (ÉCHELLE 1-5 WSET) -->
+    <!-- ÉTAPE 3 : STRUCTURE EN BOUCHE (ÉCHELLE RÉDUITE WSET) -->
     <div id="step-3" class="step">
         <h2>3. Structure (Échelle MW)</h2>
         
-        <h3>Acidité (Salivation)</h3>
-        <div class="grid-5" id="acidite-grid">
-            <div class="btn-radio" onclick="selectRadio('acidite', 1)">1<br>Faible</div>
-            <div class="btn-radio" onclick="selectRadio('acidite', 2)">2<br>Moy-</div>
-            <div class="btn-radio" onclick="selectRadio('acidite', 3)">3<br>Moyen</div>
-            <div class="btn-radio" onclick="selectRadio('acidite', 4)">4<br>Moy+</div>
-            <div class="btn-radio" onclick="selectRadio('acidite', 5)">5<br>Élevée</div>
+        <h3>Acidité</h3>
+        <p class="tasting-tip">💡 Évaluez l'intensité de la salivation sur les côtés de la langue. Une acidité élevée rend le vin fluide et fait saliver longtemps.</p>
+        <div class="grid-3" id="acidite-grid">
+            <div class="btn-radio" onclick="selectRadio('acidite', 1)">1 - Faible / Molle</div>
+            <div class="btn-radio" onclick="selectRadio('acidite', 2)">2 - Moyenne</div>
+            <div class="btn-radio" onclick="selectRadio('acidite', 3)">3 - Élevée / Tendue</div>
         </div>
 
         <div id="bouche-rouge-only" style="display:none;">
-            <h3>Tannins (Quantité)</h3>
-            <div class="grid-5" id="tannins-grid">
-                <div class="btn-radio" onclick="selectRadio('tannins', 1)">1<br>Faible</div>
-                <div class="btn-radio" onclick="selectRadio('tannins', 2)">2<br>Moy-</div>
-                <div class="btn-radio" onclick="selectRadio('tannins', 3)">3<br>Moyen</div>
-                <div class="btn-radio" onclick="selectRadio('tannins', 4)">4<br>Moy+</div>
-                <div class="btn-radio" onclick="selectRadio('tannins', 5)">5<br>Élevé</div>
+            <h3>Tannins</h3>
+            <p class="tasting-tip">💡 Concentrez-vous sur la sensation d'assèchement sur les gencives et à l'intérieur des joues, pas sur l'amertume.</p>
+            <div class="grid-3" id="tannins-grid">
+                <div class="btn-radio" onclick="selectRadio('tannins', 1)">1 - Faibles / Fondus</div>
+                <div class="btn-radio" onclick="selectRadio('tannins', 2)">2 - Moyens</div>
+                <div class="btn-radio" onclick="selectRadio('tannins', 3)">3 - Élevés / Astringents</div>
             </div>
         </div>
 
-        <h3>Alcool (Chaleur / Viscosité)</h3>
-        <div class="grid-5" id="alcool-grid">
-            <div class="btn-radio" onclick="selectRadio('alcool', 1)">< 11°</div>
-            <div class="btn-radio" onclick="selectRadio('alcool', 2)">11.5°</div>
-            <div class="btn-radio" onclick="selectRadio('alcool', 3)">12.5°</div>
-            <div class="btn-radio" onclick="selectRadio('alcool', 4)">13.5°</div>
-            <div class="btn-radio" onclick="selectRadio('alcool', 5)">> 14°</div>
+        <h3>Alcool</h3>
+        <p class="tasting-tip">💡 Sentez le niveau de chaleur au fond de la gorge après avoir avalé ou recraché le vin, ainsi que sa viscosité.</p>
+        <div class="grid-3" id="alcool-grid">
+            <div class="btn-radio" onclick="selectRadio('alcool', 1)">1 - Faible (< 12.5°)</div>
+            <div class="btn-radio" onclick="selectRadio('alcool', 2)">2 - Moyen (12.5° - 13.5°)</div>
+            <div class="btn-radio" onclick="selectRadio('alcool', 3)">3 - Élevé (> 13.5°)</div>
         </div>
 
         <div id="bouche-blanc-only" style="display:none;">
             <h3>Sucre Résiduel</h3>
+            <p class="tasting-tip">💡 Ne confondez pas le fruité (ex: litchi) avec la sensation sucrée physique sur le bout de la langue.</p>
             <div class="grid-3" id="sucre-grid">
                 <div class="btn-radio" onclick="selectRadio('sucre', 'sec')">Sec (< 4g/l)</div>
                 <div class="btn-radio" onclick="selectRadio('sucre', 'demi')">Demi-Sec (Off-dry)</div>
@@ -240,7 +237,7 @@
 </div>
 
 <script>
-    // --- GESTION DU THÈME ET PWA (v2.1.0) ---
+    // --- GESTION DU THÈME ET PWA (v2.2.0) ---
     function initTheme() {
         const savedTheme = localStorage.getItem('sherlock-theme-v2');
         const html = document.documentElement; const btn = document.getElementById('theme-btn');
@@ -280,39 +277,40 @@
         ]
     };
 
+    // BASE DE DONNÉES SIMPLIFIÉE SUR ÉCHELLE DE 3 (1=Faible, 2=Moyen, 3=Élevé)
     const database = [
         // --- BLANCS (ANCIEN MONDE) ---
-        { name: "Chablis (Chardonnay Non-Boisé)", color: "blanc", acidity: [4,5], alcohol: [2,3], opacity: "pale", body: "sec", markers: ["Pomme verte", "Citron / Pamplemousse", "Craie / Iode", "Pierre à fusil / Silex", "Fleurs blanches"], region: "Bourgogne (Nord), France - Climat Frais", desc: "La pureté du Chardonnay en climat frais : pas de bois, acidité tranchante, notes de coquille d'huître et agrumes." },
-        { name: "Meursault (Chardonnay Boisé)", color: "blanc", acidity: [3,4], alcohol: [3,4], opacity: "moyenne", body: "sec", markers: ["Beurre / Brioche (Malo)", "Noisette", "Pêche / Abricot", "Vanille", "Pain grillé / Toast"], region: "Bourgogne (Côte de Beaune) - Climat Tempéré", desc: "La conversion malolactique et le bâtonnage en fût de chêne créent ce profil beurré, brioché et ample en bouche." },
-        { name: "Sancerre / Pouilly-Fumé (Sauvignon)", color: "blanc", acidity: [4,5], alcohol: [2,3], opacity: "pale", body: "sec", markers: ["Citron vert", "Buis / Asperge", "Pierre à fusil / Silex", "Herbe fraîche"], region: "Vallée de la Loire, France - Climat Frais", desc: "Expression minérale et tranchante du Sauvignon. L'arôme de buis (pipi de chat) et la pierre à fusil sont les marqueurs absolus." },
-        { name: "Riesling (Sec)", color: "blanc", acidity: [5], alcohol: [2,3], opacity: "pale", body: "sec", markers: ["Citron / Pamplemousse", "Pomme verte", "Pétrole / Hydrocarbure", "Fleurs blanches"], region: "Alsace / Moselle (Allemagne) - Climat Frais", desc: "L'acidité est à son paroxysme (5/5). Le marqueur TDN (Pétrole) trahit un Riesling avec quelques années de bouteille." },
-        { name: "Chenin Blanc (Sec / Évolué)", color: "blanc", acidity: [4,5], alcohol: [3,4], opacity: "moyenne", body: "sec", markers: ["Coing", "Pomme verte", "Cire d'abeille", "Laine mouillée", "Miel", "Craie / Iode"], region: "Vallée de la Loire (Savennières/Vouvray)", desc: "Alliance rare d'une forte acidité avec des arômes tertiaires de cire, miel et laine humide (lanoline)." },
-        { name: "Gewurztraminer", color: "blanc", acidity: [1,2], alcohol: [4,5], opacity: "moyenne", body: "demi", markers: ["Litchi", "Rose", "Clou de girofle", "Ananas / Mangue"], region: "Alsace, France", desc: "Profil exubérant : acidité très faible, alcool souvent élevé, explosion de litchi et de rose, avec une amertume finale." },
-        { name: "Grüner Veltliner", color: "blanc", acidity: [4,5], alcohol: [2,3], opacity: "pale", body: "sec", markers: ["Citron vert", "Poivre blanc", "Pomme verte", "Buis / Asperge"], region: "Wachau / Kamptal, Autriche", desc: "Proche du Sauvignon blanc par l'acidité, mais la touche spécifique de Poivre Blanc le démasque instantanément." },
-        { name: "Viognier (Condrieu)", color: "blanc", acidity: [1,2], alcohol: [4,5], opacity: "moyenne", body: "sec", markers: ["Pêche / Abricot", "Violette (Condrieu)", "Miel", "Fleurs blanches"], region: "Rhône Nord, France - Climat Tempéré", desc: "Texture grasse, acidité faible (souvent molle), dominé par l'abricot sec et l'exubérance florale." },
-        { name: "Gros Manseng", color: "blanc", acidity: [4,5], alcohol: [3,4], opacity: "moyenne", body: "demi", markers: ["Fruit de la passion", "Ananas / Mangue", "Pêche / Abricot", "Miel"], region: "Sud-Ouest (Gascogne / Jurançon), France", desc: "L'acidité vibrante (niveau 4 à 5) vient ici équilibrer la richesse en sucres résiduels. Nez explosif et exotique dominé par le fruit de la passion." },
+        { name: "Chablis (Chardonnay Non-Boisé)", color: "blanc", acidity: [3], alcohol: [1], opacity: "pale", body: "sec", markers: ["Pomme verte", "Citron / Pamplemousse", "Craie / Iode", "Pierre à fusil / Silex", "Fleurs blanches"], region: "Bourgogne (Nord), France - Climat Frais", desc: "La pureté du Chardonnay en climat frais : pas de bois, acidité tranchante, notes de coquille d'huître et agrumes." },
+        { name: "Meursault (Chardonnay Boisé)", color: "blanc", acidity: [2], alcohol: [2], opacity: "moyenne", body: "sec", markers: ["Beurre / Brioche (Malo)", "Noisette", "Pêche / Abricot", "Vanille", "Pain grillé / Toast"], region: "Bourgogne (Côte de Beaune) - Climat Tempéré", desc: "La conversion malolactique et le bâtonnage en fût de chêne créent ce profil beurré, brioché et ample en bouche." },
+        { name: "Sancerre / Pouilly-Fumé (Sauvignon)", color: "blanc", acidity: [3], alcohol: [1,2], opacity: "pale", body: "sec", markers: ["Citron vert", "Buis / Asperge", "Pierre à fusil / Silex", "Herbe fraîche"], region: "Vallée de la Loire, France - Climat Frais", desc: "Expression minérale et tranchante du Sauvignon. L'arôme de buis (pipi de chat) et la pierre à fusil sont les marqueurs absolus." },
+        { name: "Riesling (Sec)", color: "blanc", acidity: [3], alcohol: [1], opacity: "pale", body: "sec", markers: ["Citron / Pamplemousse", "Pomme verte", "Pétrole / Hydrocarbure", "Fleurs blanches"], region: "Alsace / Moselle (Allemagne) - Climat Frais", desc: "L'acidité est à son paroxysme (Niveau 3). Le marqueur TDN (Pétrole) trahit un Riesling avec quelques années de bouteille." },
+        { name: "Chenin Blanc (Sec / Évolué)", color: "blanc", acidity: [3], alcohol: [2], opacity: "moyenne", body: "sec", markers: ["Coing", "Pomme verte", "Cire d'abeille", "Laine mouillée", "Miel", "Craie / Iode"], region: "Vallée de la Loire (Savennières/Vouvray)", desc: "Alliance rare d'une forte acidité avec des arômes tertiaires de cire, miel et laine humide (lanoline)." },
+        { name: "Gewurztraminer", color: "blanc", acidity: [1], alcohol: [3], opacity: "moyenne", body: "demi", markers: ["Litchi", "Rose", "Clou de girofle", "Ananas / Mangue"], region: "Alsace, France", desc: "Profil exubérant : acidité très faible, alcool souvent élevé, explosion de litchi et de rose, avec une amertume finale." },
+        { name: "Grüner Veltliner", color: "blanc", acidity: [3], alcohol: [1,2], opacity: "pale", body: "sec", markers: ["Citron vert", "Poivre blanc", "Pomme verte", "Buis / Asperge"], region: "Wachau / Kamptal, Autriche", desc: "Proche du Sauvignon blanc par l'acidité, mais la touche spécifique de Poivre Blanc le démasque instantanément." },
+        { name: "Viognier (Condrieu)", color: "blanc", acidity: [1], alcohol: [3], opacity: "moyenne", body: "sec", markers: ["Pêche / Abricot", "Violette (Condrieu)", "Miel", "Fleurs blanches"], region: "Rhône Nord, France - Climat Tempéré", desc: "Texture grasse, acidité faible (souvent molle), dominé par l'abricot sec et l'exubérance florale." },
+        { name: "Gros Manseng", color: "blanc", acidity: [3], alcohol: [2], opacity: "moyenne", body: "demi", markers: ["Fruit de la passion", "Ananas / Mangue", "Pêche / Abricot", "Miel"], region: "Sud-Ouest (Gascogne / Jurançon), France", desc: "L'acidité vibrante vient ici équilibrer la richesse en sucres résiduels. Nez explosif et exotique dominé par le fruit de la passion." },
 
         // --- BLANCS (NOUVEAU MONDE) ---
-        { name: "Marlborough Sauvignon Blanc", color: "blanc", acidity: [4,5], alcohol: [3], opacity: "pale", body: "sec", markers: ["Fruit de la passion", "Buis / Asperge", "Citron vert", "Poivron vert"], region: "Marlborough, Nouvelle-Zélande", desc: "L'explosion des thiols : un nez hyper expressif de fruit de la passion croisé avec l'asperge (pyrazine)." },
-        { name: "Napa Valley Chardonnay", color: "blanc", acidity: [2,3], alcohol: [4,5], opacity: "moyenne", body: "sec", markers: ["Ananas / Mangue", "Vanille", "Beurre / Brioche (Malo)", "Pain grillé / Toast"], region: "Californie, USA - Climat Chaud", desc: "Contrairement à Chablis, le fruit est tropical, l'alcool est élevé, et l'élevage en chêne américain (vanille) est prononcé." },
+        { name: "Marlborough Sauvignon Blanc", color: "blanc", acidity: [3], alcohol: [2], opacity: "pale", body: "sec", markers: ["Fruit de la passion", "Buis / Asperge", "Citron vert", "Poivron vert"], region: "Marlborough, Nouvelle-Zélande", desc: "L'explosion des thiols : un nez hyper expressif de fruit de la passion croisé avec l'asperge (pyrazine)." },
+        { name: "Napa Valley Chardonnay", color: "blanc", acidity: [1,2], alcohol: [3], opacity: "moyenne", body: "sec", markers: ["Ananas / Mangue", "Vanille", "Beurre / Brioche (Malo)", "Pain grillé / Toast"], region: "Californie, USA - Climat Chaud", desc: "Contrairement à Chablis, le fruit est tropical, l'alcool est élevé, et l'élevage en chêne américain (vanille) est prononcé." },
 
         // --- ROUGES (ANCIEN MONDE) ---
-        { name: "Pinot Noir (Bourgogne)", color: "rouge", acidity: [4,5], tannins: [1,2], alcohol: [2,3], opacity: "pale", markers: ["Cerise fraîche", "Framboise", "Pivoine", "Sous-bois / Champignon", "Terre humide"], region: "Bourgogne (Côte de Nuits/Beaune)", desc: "Robe translucide, acidité vibrante, tannins très fins. Les notes de sous-bois signent son évolution." },
-        { name: "Bordeaux Rive Gauche (Cabernet Sauvignon)", color: "rouge", acidity: [3,4], tannins: [4,5], alcohol: [3,4], opacity: "profonde", markers: ["Cassis", "Poivron vert", "Cèdre / Boîte à cigare", "Tabac / Cigare", "Menthol / Eucalyptus"], region: "Médoc / Haut-Médoc, France", desc: "L'ossature du Cabernet : tannins massifs, acidité solide, cassis net et la signature de boîte à cigare/cèdre." },
-        { name: "Bordeaux Rive Droite (Merlot)", color: "rouge", acidity: [3], tannins: [3,4], alcohol: [3,4], opacity: "profonde", markers: ["Cerise fraîche", "Prune / Quetsche", "Cacao / Chocolat", "Truffe", "Sous-bois / Champignon"], region: "Saint-Émilion / Pomerol, France", desc: "Plus rond et charnu que la rive gauche. Le Merlot apporte le fruit noir opulent, le cacao et évolue vers la truffe." },
-        { name: "Syrah (Rhône Nord)", color: "rouge", acidity: [4], tannins: [3,4], alcohol: [3], opacity: "profonde", markers: ["Poivre noir", "Lardé / Fumé", "Violette", "Olive noire", "Sang / Viande crue"], region: "Côte-Rôtie / Hermitage, France", desc: "La typicité septentrionale : une acidité qui porte le vin, et des marqueurs indélébiles de poivre noir, lard fumé et tapenade." },
-        { name: "Nebbiolo", color: "rouge", acidity: [5], tannins: [5], alcohol: [4,5], opacity: "pale", markers: ["Rose fanée", "Goudron / Bitume", "Cerise aigre / Griotte", "Terre humide", "Cuir"], region: "Piémont (Barolo/Barbaresco), Italie", desc: "Le piège de la dégustation à l'aveugle : une robe claire et orangée, mais une acidité (5/5) et des tannins (5/5) impitoyables. Nez de goudron et rose." },
-        { name: "Sangiovese", color: "rouge", acidity: [4,5], tannins: [4], alcohol: [3,4], opacity: "moyenne", markers: ["Cerise aigre / Griotte", "Feuille de thé", "Origan / Herbes", "Feuille de tomate", "Cuir"], region: "Toscane (Chianti/Brunello), Italie", desc: "Structure nerveuse, tannins fermes, et un profil aromatique tirant vers la griotte acide, le thé et la tomate séchée." },
-        { name: "Tempranillo", color: "rouge", acidity: [2,3], tannins: [3,4], alcohol: [3,4], opacity: "profonde", markers: ["Fraise séchée", "Vanille", "Tabac / Cigare", "Cuir", "Prune / Quetsche"], region: "Rioja / Ribera del Duero, Espagne", desc: "L'élevage long en chêne américain (Vanille) sur un fruit séché, avec des tannins polis mais présents." },
-        { name: "Gamay (Macération)", color: "rouge", acidity: [4,5], tannins: [1], alcohol: [2,3], opacity: "pale", markers: ["Fraise", "Framboise", "Banane/Bonbon (Macération)", "Pivoine"], region: "Beaujolais, France", desc: "Gouleyant, tannins quasi inexistants. Les levures et la macération carbonique donnent ce nez amylique typique (bonbon anglais, banane)." },
-        { name: "Assemblage GSM (Rhône Sud)", color: "rouge", acidity: [2,3], tannins: [3], alcohol: [4,5], opacity: "moyenne", markers: ["Garrigue / Thym", "Fraise", "Fruits cuits / Confiture", "Poivre noir", "Cuir"], region: "Châteauneuf-du-Pape / Gigondas, France", desc: "Le Grenache dicte l'alcool (+14.5°), le fruit rouge cuit et la chaleur. La Syrah épice, le Mourvèdre structure." },
+        { name: "Pinot Noir (Bourgogne)", color: "rouge", acidity: [3], tannins: [1], alcohol: [1,2], opacity: "pale", markers: ["Cerise fraîche", "Framboise", "Pivoine", "Sous-bois / Champignon", "Terre humide"], region: "Bourgogne (Côte de Nuits/Beaune)", desc: "Robe translucide, acidité vibrante, tannins très fins. Les notes de sous-bois signent son évolution." },
+        { name: "Bordeaux Rive Gauche (Cabernet Sauvignon)", color: "rouge", acidity: [2,3], tannins: [3], alcohol: [2,3], opacity: "profonde", markers: ["Cassis", "Poivron vert", "Cèdre / Boîte à cigare", "Tabac / Cigare", "Menthol / Eucalyptus"], region: "Médoc / Haut-Médoc, France", desc: "L'ossature du Cabernet : tannins massifs, acidité solide, cassis net et la signature de boîte à cigare/cèdre." },
+        { name: "Bordeaux Rive Droite (Merlot)", color: "rouge", acidity: [2], tannins: [2], alcohol: [2,3], opacity: "profonde", markers: ["Cerise fraîche", "Prune / Quetsche", "Cacao / Chocolat", "Truffe", "Sous-bois / Champignon"], region: "Saint-Émilion / Pomerol, France", desc: "Plus rond et charnu que la rive gauche. Le Merlot apporte le fruit noir opulent, le cacao et évolue vers la truffe." },
+        { name: "Syrah (Rhône Nord)", color: "rouge", acidity: [2,3], tannins: [2,3], alcohol: [2], opacity: "profonde", markers: ["Poivre noir", "Lardé / Fumé", "Violette", "Olive noire", "Sang / Viande crue"], region: "Côte-Rôtie / Hermitage, France", desc: "La typicité septentrionale : une acidité qui porte le vin, et des marqueurs indélébiles de poivre noir, lard fumé et tapenade." },
+        { name: "Nebbiolo", color: "rouge", acidity: [3], tannins: [3], alcohol: [3], opacity: "pale", markers: ["Rose fanée", "Goudron / Bitume", "Cerise aigre / Griotte", "Terre humide", "Cuir"], region: "Piémont (Barolo/Barbaresco), Italie", desc: "Le piège de la dégustation à l'aveugle : une robe claire et orangée, mais une acidité élevée (3/3) et des tannins massifs (3/3). Nez de goudron et rose." },
+        { name: "Sangiovese", color: "rouge", acidity: [3], tannins: [2,3], alcohol: [2,3], opacity: "moyenne", markers: ["Cerise aigre / Griotte", "Feuille de thé", "Origan / Herbes", "Feuille de tomate", "Cuir"], region: "Toscane (Chianti/Brunello), Italie", desc: "Structure nerveuse, tannins fermes, et un profil aromatique tirant vers la griotte acide, le thé et la tomate séchée." },
+        { name: "Tempranillo", color: "rouge", acidity: [2], tannins: [2], alcohol: [2,3], opacity: "profonde", markers: ["Fraise séchée", "Vanille", "Tabac / Cigare", "Cuir", "Prune / Quetsche"], region: "Rioja / Ribera del Duero, Espagne", desc: "L'élevage long en chêne américain (Vanille) sur un fruit séché, avec des tannins polis mais présents." },
+        { name: "Gamay (Macération)", color: "rouge", acidity: [3], tannins: [1], alcohol: [1,2], opacity: "pale", markers: ["Fraise", "Framboise", "Banane/Bonbon (Macération)", "Pivoine"], region: "Beaujolais, France", desc: "Gouleyant, tannins quasi inexistants. Les levures et la macération carbonique donnent ce nez amylique typique (bonbon anglais, banane)." },
+        { name: "Assemblage GSM (Rhône Sud)", color: "rouge", acidity: [1,2], tannins: [2], alcohol: [3], opacity: "moyenne", markers: ["Garrigue / Thym", "Fraise", "Fruits cuits / Confiture", "Poivre noir", "Cuir"], region: "Châteauneuf-du-Pape / Gigondas, France", desc: "Le Grenache dicte l'alcool élevé (Niveau 3), le fruit rouge cuit et la chaleur. La Syrah épice, le Mourvèdre structure." },
 
         // --- ROUGES (NOUVEAU MONDE) ---
-        { name: "Shiraz (Barossa)", color: "rouge", acidity: [2,3], tannins: [4], alcohol: [4,5], opacity: "profonde", markers: ["Mûre / Myrtille", "Fruits cuits / Confiture", "Cacao / Chocolat", "Menthol / Eucalyptus", "Poivre noir"], region: "Barossa Valley, Australie - Climat Chaud", desc: "La Syrah sous un soleil brûlant : exit le lard froid du Rhône, place à la confiture de mûre, l'eucalyptus et l'alcool imposant." },
-        { name: "Malbec (Argentine)", color: "rouge", acidity: [3], tannins: [3,4], alcohol: [4,5], opacity: "profonde", markers: ["Mûre / Myrtille", "Violette", "Cacao / Chocolat", "Prune / Quetsche"], region: "Mendoza, Argentine (Altitude)", desc: "Robe violacée presque noire. Beaucoup de fruit noir (mûre/prune) avec une note florale très pure de violette due à l'altitude." },
-        { name: "Carmenère (Chili)", color: "rouge", acidity: [3], tannins: [3], alcohol: [3,4], opacity: "profonde", markers: ["Poivron vert", "Mûre / Myrtille", "Café / Espresso", "Cacao / Chocolat"], region: "Vallée Centrale, Chili", desc: "Le poivron vert (pyrazine) est hyper dominant, croisé avec un côté torréfié (café) typique du traitement chilien." },
-        { name: "Zinfandel (Californie)", color: "rouge", acidity: [2,3], tannins: [3], alcohol: [5], opacity: "profonde", markers: ["Fraise", "Fruits cuits / Confiture", "Figue", "Poivre noir", "Vanille"], region: "Lodi / Sonoma, Californie, USA", desc: "C'est l'alter ego du Primitivo italien. Alcool redoutable (>15°), fruits rouges compotés, confiture de fraise et notes poivrées." },
-        { name: "Pinot Noir (Nouveau Monde)", color: "rouge", acidity: [3,4], tannins: [2], alcohol: [4], opacity: "moyenne", markers: ["Cerise fraîche", "Fraise", "Vanille", "Clou de girofle"], region: "Central Otago (NZ) / Californie (USA)", desc: "Plus d'extraction, de couleur, d'alcool et de fruit sucré que la Bourgogne, souvent soutenu par un élevage en fût neuf plus marqué." }
+        { name: "Shiraz (Barossa)", color: "rouge", acidity: [1,2], tannins: [2,3], alcohol: [3], opacity: "profonde", markers: ["Mûre / Myrtille", "Fruits cuits / Confiture", "Cacao / Chocolat", "Menthol / Eucalyptus", "Poivre noir"], region: "Barossa Valley, Australie - Climat Chaud", desc: "La Syrah sous un soleil brûlant : exit le lard froid du Rhône, place à la confiture de mûre, l'eucalyptus et l'alcool imposant." },
+        { name: "Malbec (Argentine)", color: "rouge", acidity: [2], tannins: [2], alcohol: [3], opacity: "profonde", markers: ["Mûre / Myrtille", "Violette", "Cacao / Chocolat", "Prune / Quetsche"], region: "Mendoza, Argentine (Altitude)", desc: "Robe violacée presque noire. Beaucoup de fruit noir (mûre/prune) avec une note florale très pure de violette due à l'altitude." },
+        { name: "Carmenère (Chili)", color: "rouge", acidity: [2], tannins: [2], alcohol: [2,3], opacity: "profonde", markers: ["Poivron vert", "Mûre / Myrtille", "Café / Espresso", "Cacao / Chocolat"], region: "Vallée Centrale, Chili", desc: "Le poivron vert (pyrazine) est hyper dominant, croisé avec un côté torréfié (café) typique du traitement chilien." },
+        { name: "Zinfandel (Californie)", color: "rouge", acidity: [1,2], tannins: [2], alcohol: [3], opacity: "profonde", markers: ["Fraise", "Fruits cuits / Confiture", "Figue", "Poivre noir", "Vanille"], region: "Lodi / Sonoma, Californie, USA", desc: "C'est l'alter ego du Primitivo italien. Alcool redoutable (Niveau 3), fruits rouges compotés, confiture de fraise et notes poivrées." },
+        { name: "Pinot Noir (Nouveau Monde)", color: "rouge", acidity: [2,3], tannins: [1,2], alcohol: [3], opacity: "moyenne", markers: ["Cerise fraîche", "Fraise", "Vanille", "Clou de girofle"], region: "Central Otago (NZ) / Californie (USA)", desc: "Plus d'extraction, de couleur, d'alcool et de fruit sucré que la Bourgogne, souvent soutenu par un élevage en fût neuf plus marqué." }
     ];
 
     let currentStep = 1;
@@ -395,22 +393,26 @@
             if (cepage.color !== state.couleur) return;
             let score = 0; let matchedMarkers = [];
 
+            // 1. SCORING STRUCTUREL (Échelle de 3)
             if (cepage.acidity.includes(state.acidite)) score += 4;
-            else if (Math.abs(cepage.acidity[0] - state.acidite) > 1) score -= 3;
+            else if (Math.abs(cepage.acidity[0] - state.acidite) === 2) score -= 3; // Pénalité sévère si écart maximal (ex: prévu 1, perçu 3)
             
             if (state.couleur === 'rouge') {
                 if (cepage.tannins.includes(state.tannins)) score += 4;
-                else if (Math.abs(cepage.tannins[0] - state.tannins) > 1) score -= 3;
+                else if (Math.abs(cepage.tannins[0] - state.tannins) === 2) score -= 3;
             } else {
                 if (cepage.body === state.sucre) score += 3;
             }
 
             if (cepage.alcohol.includes(state.alcool)) score += 2;
+            else if (Math.abs(cepage.alcohol[0] - state.alcool) === 2) score -= 2;
 
+            // 2. SCORING AROMATIQUE
             state.aromas.forEach(tag => {
                 if (cepage.markers.includes(tag)) { score += 2; matchedMarkers.push(tag); }
             });
 
+            // 3. KILLER COMBOS
             const killerCombos = {
                 "Pétrole / Hydrocarbure": "Riesling (Sec)",
                 "Cire d'abeille": "Chenin Blanc (Sec / Évolué)",
