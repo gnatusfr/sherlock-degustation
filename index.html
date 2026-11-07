@@ -152,7 +152,7 @@
     <div class="status-badge">
         <span class="status-pill">
             <span class="status-dot online" id="status-dot"></span>
-            <span id="app-version">v2.4.0 MW Edition</span>
+            <span id="app-version">v2.5.0 Ultimate MW</span>
         </span>
         <button class="theme-toggle-btn" onclick="toggleTheme()" id="theme-btn">Auto 🌓</button>
     </div>
@@ -267,7 +267,6 @@
 
 </div>
 
-<!-- BARRE DE NAVIGATION FIXE (Uniquement pour le mode Enquête) -->
 <div class="nav-bar" id="nav-bar">
     <div class="nav-inner">
         <button class="btn-nav btn-outline" id="btn-prev" onclick="changeStep(-1)" style="display: none;">Retours</button>
@@ -301,7 +300,7 @@
     window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', updateMetaThemeColor);
     initTheme();
 
-    // --- BASE DE DONNÉES ---
+    // --- BASE DE DONNÉES EXPERTE ---
     const aromasLibrary = {
         blanc: [
             { cat: "I. Fruits (Primaires)", tags: ["Citron vert", "Citron / Pamplemousse", "Pomme verte", "Poire", "Pêche / Abricot", "Litchi", "Fruit de la passion", "Ananas / Mangue", "Melon"] },
@@ -322,12 +321,17 @@
         { name: "Chablis (Chardonnay Non-Boisé)", color: "blanc", acidity: [3], alcohol: [1], opacity: "pale", body: "sec", markers: ["Pomme verte", "Citron / Pamplemousse", "Craie / Iode", "Pierre à fusil / Silex", "Fleurs blanches"], region: "Bourgogne (Nord), France - Climat Frais", desc: "La pureté du Chardonnay en climat frais : pas de bois, acidité tranchante, notes de coquille d'huître et agrumes." },
         { name: "Meursault (Chardonnay Boisé)", color: "blanc", acidity: [2], alcohol: [2], opacity: "moyenne", body: "sec", markers: ["Beurre / Brioche (Malo)", "Noisette", "Pêche / Abricot", "Vanille", "Pain grillé / Toast"], region: "Bourgogne (Côte de Beaune) - Climat Tempéré", desc: "La conversion malolactique et le bâtonnage en fût de chêne créent ce profil beurré, brioché et ample en bouche." },
         { name: "Sancerre / Pouilly-Fumé (Sauvignon)", color: "blanc", acidity: [3], alcohol: [1,2], opacity: "pale", body: "sec", markers: ["Citron vert", "Buis / Asperge", "Pierre à fusil / Silex", "Herbe fraîche"], region: "Vallée de la Loire, France - Climat Frais", desc: "Expression minérale et tranchante du Sauvignon. L'arôme de buis (pipi de chat) et la pierre à fusil sont les marqueurs absolus." },
+        { name: "Muscadet Sèvre et Maine (Sur Lie)", color: "blanc", acidity: [3], alcohol: [1], opacity: "pale", body: "sec", markers: ["Citron / Pamplemousse", "Pomme verte", "Craie / Iode", "Beurre / Brioche (Malo)"], region: "Pays Nantais (Loire), France", desc: "Le roi des huîtres : acidité très élevée, corps léger, avec une fine touche briochée ou levurée grâce à l'élevage sur lies." },
         { name: "Riesling (Sec)", color: "blanc", acidity: [3], alcohol: [1], opacity: "pale", body: "sec", markers: ["Citron / Pamplemousse", "Pomme verte", "Pétrole / Hydrocarbure", "Fleurs blanches"], region: "Alsace / Moselle (Allemagne) - Climat Frais", desc: "L'acidité est à son paroxysme (Niveau 3). Le marqueur TDN (Pétrole) trahit un Riesling avec quelques années de bouteille." },
+        { name: "Pinot Gris", color: "blanc", acidity: [1,2], alcohol: [3], opacity: "or", body: "demi", markers: ["Pêche / Abricot", "Miel", "Pain grillé / Toast", "Pomme verte"], region: "Alsace, France", desc: "Plus riche et onctueux qu'un Pinot Grigio italien. Souvent des notes miellées, fumées ou de champignon frais, avec un peu de sucre résiduel." },
         { name: "Chenin Blanc (Sec / Évolué)", color: "blanc", acidity: [3], alcohol: [2], opacity: "moyenne", body: "sec", markers: ["Coing", "Pomme verte", "Cire d'abeille", "Laine mouillée", "Miel", "Craie / Iode"], region: "Vallée de la Loire (Savennières/Vouvray)", desc: "Alliance rare d'une forte acidité avec des arômes tertiaires de cire, miel et laine humide (lanoline)." },
+        { name: "Sauternes / Barsac", color: "blanc", acidity: [2,3], alcohol: [3], opacity: "or", body: "doux", markers: ["Pêche / Abricot", "Miel", "Cire d'abeille", "Vanille", "Ananas / Mangue"], region: "Bordeaux, France", desc: "Le chef-d'œuvre botrytisé : l'acidité équilibre un taux de sucre massif. Arômes explosifs de marmelade d'abricot, miel et cire." },
         { name: "Gewurztraminer", color: "blanc", acidity: [1], alcohol: [3], opacity: "moyenne", body: "demi", markers: ["Litchi", "Rose", "Clou de girofle", "Ananas / Mangue"], region: "Alsace, France", desc: "Profil exubérant : acidité très faible, alcool souvent élevé, explosion de litchi et de rose, avec une amertume finale." },
         { name: "Grüner Veltliner", color: "blanc", acidity: [3], alcohol: [1,2], opacity: "pale", body: "sec", markers: ["Citron vert", "Poivre blanc", "Pomme verte", "Buis / Asperge"], region: "Wachau / Kamptal, Autriche", desc: "Proche du Sauvignon blanc par l'acidité, mais la touche spécifique de Poivre Blanc le démasque instantanément." },
         { name: "Viognier (Condrieu)", color: "blanc", acidity: [1], alcohol: [3], opacity: "moyenne", body: "sec", markers: ["Pêche / Abricot", "Violette (Condrieu)", "Miel", "Fleurs blanches"], region: "Rhône Nord, France - Climat Tempéré", desc: "Texture grasse, acidité faible (souvent molle), dominé par l'abricot sec et l'exubérance florale." },
+        { name: "Albariño", color: "blanc", acidity: [3], alcohol: [2], opacity: "pale", body: "sec", markers: ["Pêche / Abricot", "Citron / Pamplemousse", "Fleurs blanches", "Craie / Iode"], region: "Rías Baixas, Espagne", desc: "Le grand blanc atlantique : vif, très aromatique (abricot, agrume) et souvent marqué par une finale saline ou iodée." },
         { name: "Gros Manseng", color: "blanc", acidity: [3], alcohol: [2], opacity: "moyenne", body: "demi", markers: ["Fruit de la passion", "Ananas / Mangue", "Pêche / Abricot", "Miel"], region: "Sud-Ouest (Gascogne / Jurançon), France", desc: "L'acidité vibrante vient ici équilibrer la richesse en sucres résiduels. Nez explosif et exotique dominé par le fruit de la passion." },
+        { name: "Torrontés", color: "blanc", acidity: [2], alcohol: [3], opacity: "pale", body: "sec", markers: ["Litchi", "Rose", "Pêche / Abricot", "Melon"], region: "Salta, Argentine (Altitude)", desc: "Le piège parfumé : il sent le Gewurztraminer (litchi, rose) mais reste totalement sec et léger en bouche grâce à l'altitude." },
         { name: "Marlborough Sauvignon Blanc", color: "blanc", acidity: [3], alcohol: [2], opacity: "pale", body: "sec", markers: ["Fruit de la passion", "Buis / Asperge", "Citron vert", "Poivron vert"], region: "Marlborough, Nouvelle-Zélande", desc: "L'explosion des thiols : un nez hyper expressif de fruit de la passion croisé avec l'asperge (pyrazine)." },
         { name: "Napa Valley Chardonnay", color: "blanc", acidity: [1,2], alcohol: [3], opacity: "moyenne", body: "sec", markers: ["Ananas / Mangue", "Vanille", "Beurre / Brioche (Malo)", "Pain grillé / Toast"], region: "Californie, USA - Climat Chaud", desc: "Contrairement à Chablis, le fruit est tropical, l'alcool est élevé, et l'élevage en chêne américain (vanille) est prononcé." },
         
@@ -336,18 +340,22 @@
         { name: "Bordeaux Rive Gauche (Cabernet Sauvignon)", color: "rouge", acidity: [2,3], tannins: [3], alcohol: [2,3], opacity: "profonde", markers: ["Cassis", "Poivron vert", "Cèdre / Boîte à cigare", "Tabac / Cigare", "Menthol / Eucalyptus"], region: "Médoc / Haut-Médoc, France", desc: "L'ossature du Cabernet : tannins massifs, acidité solide, cassis net et la signature de boîte à cigare/cèdre." },
         { name: "Bordeaux Rive Droite (Merlot)", color: "rouge", acidity: [2], tannins: [2], alcohol: [2,3], opacity: "profonde", markers: ["Cerise fraîche", "Prune / Quetsche", "Cacao / Chocolat", "Truffe", "Sous-bois / Champignon"], region: "Saint-Émilion / Pomerol, France", desc: "Plus rond et charnu que la rive gauche. Le Merlot apporte le fruit noir opulent, le cacao et évolue vers la truffe." },
         { name: "Syrah (Rhône Nord)", color: "rouge", acidity: [2,3], tannins: [2,3], alcohol: [2], opacity: "profonde", markers: ["Poivre noir", "Lardé / Fumé", "Violette", "Olive noire", "Sang / Viande crue"], region: "Côte-Rôtie / Hermitage, France", desc: "La typicité septentrionale : une acidité qui porte le vin, et des marqueurs indélébiles de poivre noir, lard fumé et tapenade." },
+        { name: "Vacqueyras / Gigondas", color: "rouge", acidity: [2], tannins: [2,3], alcohol: [3], opacity: "profonde", markers: ["Garrigue / Thym", "Fruits cuits / Confiture", "Poivre noir", "Olive noire", "Cuir"], region: "Rhône Sud, France", desc: "L'assemblage GSM terrien et charpenté. Plus rustique et souvent plus accrocheur en tannins que son grand frère de Châteauneuf." },
+        { name: "Châteauneuf-du-Pape", color: "rouge", acidity: [1,2], tannins: [2], alcohol: [3], opacity: "moyenne", markers: ["Fraise", "Fruits cuits / Confiture", "Figue", "Cuir", "Truffe"], region: "Rhône Sud, France", desc: "Le roi du Grenache : chaleur intense (alcool XXL), texture soyeuse, robe parfois un peu tuilée jeune, arômes intenses de fraise confite et de figue." },
         { name: "Nebbiolo", color: "rouge", acidity: [3], tannins: [3], alcohol: [3], opacity: "pale", markers: ["Rose fanée", "Goudron / Bitume", "Cerise aigre / Griotte", "Terre humide", "Cuir"], region: "Piémont (Barolo/Barbaresco), Italie", desc: "Le piège de la dégustation à l'aveugle : une robe claire et orangée, mais une acidité élevée (3/3) et des tannins massifs (3/3). Nez de goudron et rose." },
         { name: "Sangiovese", color: "rouge", acidity: [3], tannins: [2,3], alcohol: [2,3], opacity: "moyenne", markers: ["Cerise aigre / Griotte", "Feuille de thé", "Origan / Herbes", "Feuille de tomate", "Cuir"], region: "Toscane (Chianti/Brunello), Italie", desc: "Structure nerveuse, tannins fermes, et un profil aromatique tirant vers la griotte acide, le thé et la tomate séchée." },
         { name: "Montepulciano", color: "rouge", acidity: [2,3], tannins: [2,3], alcohol: [2,3], opacity: "profonde", markers: ["Prune / Quetsche", "Cerise fraîche", "Origan / Herbes", "Terre humide"], region: "Abruzzes, Italie", desc: "Un vin charnu, profondément coloré, avec un fruité franc de prune et de cerise noire, soutenu par une note rustique de terre et d'herbes aromatiques." },
         { name: "Primitivo", color: "rouge", acidity: [1,2], tannins: [2], alcohol: [3], opacity: "profonde", markers: ["Fruits cuits / Confiture", "Figue", "Cacao / Chocolat", "Réglisse", "Prune / Quetsche"], region: "Pouilles (Manduria), Italie", desc: "Le jumeau italien du Zinfandel. Gorgé de soleil, il offre une bouche opulente, riche en alcool, dominée par les fruits noirs confiturés, la figue et la réglisse." },
         { name: "Negroamaro", color: "rouge", acidity: [2], tannins: [2,3], alcohol: [3], opacity: "profonde", markers: ["Mûre / Myrtille", "Fruits cuits / Confiture", "Origan / Herbes", "Tabac / Cigare", "Terre humide"], region: "Pouilles (Salice Salentino), Italie", desc: "Signifiant 'noir et amer', ce cépage phare du sud donne des vins sombres, charpentés, avec des notes de fruits rôtis, de tabac et d'herbes méditerranéennes." },
         { name: "Aglianico", color: "rouge", acidity: [3], tannins: [3], alcohol: [3], opacity: "profonde", markers: ["Cerise aigre / Griotte", "Prune / Quetsche", "Cuir", "Goudron / Bitume", "Terre humide"], region: "Campanie (Taurasi), Italie", desc: "Surnommé le 'Barolo du Sud'. Les terroirs volcaniques forgent un vin extrêmement tannique et acide, avec des notes profondes de goudron, de cuir et de griotte." },
+        { name: "Amarone della Valpolicella", color: "rouge", acidity: [2], tannins: [2,3], alcohol: [3], opacity: "profonde", markers: ["Fruits cuits / Confiture", "Figue", "Cerise fraîche", "Cacao / Chocolat"], region: "Vénétie, Italie", desc: "Fait à partir de raisins séchés (passerillage). Structure XXL, alcool très élevé (15°+), nez explosif de figue, de cerise à l'eau-de-vie et de chocolat." },
         { name: "Tempranillo", color: "rouge", acidity: [2], tannins: [2], alcohol: [2,3], opacity: "profonde", markers: ["Fraise séchée", "Vanille", "Tabac / Cigare", "Cuir", "Prune / Quetsche"], region: "Rioja / Ribera del Duero, Espagne", desc: "L'élevage long en chêne américain (Vanille) sur un fruit séché, avec des tannins polis mais présents." },
         { name: "Gamay (Macération)", color: "rouge", acidity: [3], tannins: [1], alcohol: [1,2], opacity: "pale", markers: ["Fraise", "Framboise", "Banane/Bonbon (Macération)", "Pivoine"], region: "Beaujolais, France", desc: "Gouleyant, tannins quasi inexistants. Les levures et la macération carbonique donnent ce nez amylique typique (bonbon anglais, banane)." },
-        { name: "Assemblage GSM (Rhône Sud)", color: "rouge", acidity: [1,2], tannins: [2], alcohol: [3], opacity: "moyenne", markers: ["Garrigue / Thym", "Fraise", "Fruits cuits / Confiture", "Poivre noir", "Cuir"], region: "Châteauneuf-du-Pape / Gigondas, France", desc: "Le Grenache dicte l'alcool élevé (Niveau 3), le fruit rouge cuit et la chaleur. La Syrah épice, le Mourvèdre structure." },
         { name: "Shiraz (Barossa)", color: "rouge", acidity: [1,2], tannins: [2,3], alcohol: [3], opacity: "profonde", markers: ["Mûre / Myrtille", "Fruits cuits / Confiture", "Cacao / Chocolat", "Menthol / Eucalyptus", "Poivre noir"], region: "Barossa Valley, Australie - Climat Chaud", desc: "La Syrah sous un soleil brûlant : exit le lard froid du Rhône, place à la confiture de mûre, l'eucalyptus et l'alcool imposant." },
+        { name: "Cabernet Sauvignon (Coonawarra)", color: "rouge", acidity: [2,3], tannins: [3], alcohol: [2,3], opacity: "profonde", markers: ["Cassis", "Menthol / Eucalyptus", "Cèdre / Boîte à cigare"], region: "Coonawarra, Australie", desc: "Le sol de 'Terra Rossa' australien produit un Cabernet intense où l'eucalyptus et la menthe écrasée rivalisent avec le cassis pur." },
         { name: "Malbec (Argentine)", color: "rouge", acidity: [2], tannins: [2], alcohol: [3], opacity: "profonde", markers: ["Mûre / Myrtille", "Violette", "Cacao / Chocolat", "Prune / Quetsche"], region: "Mendoza, Argentine (Altitude)", desc: "Robe violacée presque noire. Beaucoup de fruit noir (mûre/prune) avec une note florale très pure de violette due à l'altitude." },
         { name: "Carmenère (Chili)", color: "rouge", acidity: [2], tannins: [2], alcohol: [2,3], opacity: "profonde", markers: ["Poivron vert", "Mûre / Myrtille", "Café / Espresso", "Cacao / Chocolat"], region: "Vallée Centrale, Chili", desc: "Le poivron vert (pyrazine) est hyper dominant, croisé avec un côté torréfié (café) typique du traitement chilien." },
+        { name: "Pinotage", color: "rouge", acidity: [2], tannins: [2], alcohol: [3], opacity: "profonde", markers: ["Mûre / Myrtille", "Lardé / Fumé", "Goudron / Bitume", "Fruits cuits / Confiture"], region: "Stellenbosch, Afrique du Sud", desc: "Croisement Pinot Noir/Cinsault. Célèbre (et clivant) pour ses notes très fumées, de caoutchouc brûlé, de goudron mêlées aux fruits noirs cuits." },
         { name: "Zinfandel (Californie)", color: "rouge", acidity: [1,2], tannins: [2], alcohol: [3], opacity: "profonde", markers: ["Fraise", "Fruits cuits / Confiture", "Figue", "Poivre noir", "Vanille"], region: "Lodi / Sonoma, Californie, USA", desc: "C'est l'alter ego du Primitivo italien. Alcool redoutable (Niveau 3), fruits rouges compotés, confiture de fraise et notes poivrées." },
         { name: "Pinot Noir (Nouveau Monde)", color: "rouge", acidity: [2,3], tannins: [1,2], alcohol: [3], opacity: "moyenne", markers: ["Cerise fraîche", "Fraise", "Vanille", "Clou de girofle"], region: "Central Otago (NZ) / Californie (USA)", desc: "Plus d'extraction, de couleur, d'alcool et de fruit sucré que la Bourgogne, souvent soutenu par un élevage en fût neuf plus marqué." }
     ];
@@ -370,7 +378,6 @@
         }
     }
 
-    // --- LOGIQUE MODE GRIMOIRE (ENCYCLOPÉDIE) ---
     function renderEncycloList(dataArray) {
         const container = document.getElementById('encyclo-list-container');
         container.innerHTML = '';
@@ -585,18 +592,20 @@
 
             const killerCombos = {
                 "Pétrole / Hydrocarbure": "Riesling (Sec)",
-                "Cire d'abeille": "Chenin Blanc (Sec / Évolué)",
+                "Cire d'abeille": ["Chenin Blanc (Sec / Évolué)", "Sauternes / Barsac"],
                 "Buis / Asperge": ["Sancerre / Pouilly-Fumé (Sauvignon)", "Marlborough Sauvignon Blanc"],
                 "Fruit de la passion": ["Marlborough Sauvignon Blanc", "Gros Manseng"],
-                "Lardé / Fumé": "Syrah (Rhône Nord)",
+                "Litchi": ["Gewurztraminer", "Torrontés"],
+                "Lardé / Fumé": ["Syrah (Rhône Nord)", "Pinotage"],
                 "Banane/Bonbon (Macération)": "Gamay (Macération)",
-                "Goudron / Bitume": ["Nebbiolo", "Aglianico"],
+                "Goudron / Bitume": ["Nebbiolo", "Aglianico", "Pinotage"],
                 "Rose fanée": "Nebbiolo",
                 "Feuille de thé": "Sangiovese",
                 "Feuille de tomate": "Sangiovese",
                 "Origan / Herbes": ["Sangiovese", "Montepulciano", "Negroamaro"],
-                "Figue": ["Zinfandel (Californie)", "Primitivo", "Assemblage GSM (Rhône Sud)"],
+                "Figue": ["Zinfandel (Californie)", "Primitivo", "Châteauneuf-du-Pape", "Amarone della Valpolicella"],
                 "Fraise séchée": "Tempranillo",
+                "Menthol / Eucalyptus": ["Cabernet Sauvignon (Coonawarra)", "Bordeaux Rive Gauche (Cabernet Sauvignon)"],
                 "Poivron vert": ["Bordeaux Rive Gauche (Cabernet Sauvignon)", "Bordeaux Rive Droite (Merlot)", "Carmenère (Chili)"]
             };
 
